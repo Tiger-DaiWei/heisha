@@ -1,5 +1,15 @@
 <template>
-  <div class="app-container">
+  <div class="app-container"> 
+    <el-card class="operate-container" shadow="never">
+      <i class="el-icon-tickets" style="margin-top: 5px"></i>
+      <span style="margin-top: 5px">设备列表</span>
+      <el-button
+        class="btn-add"
+        @click="handleAddProductCate()"
+        size="mini">
+        添加
+      </el-button>
+    </el-card>
     <el-table
       :data="shopLists"
       border
@@ -41,11 +51,15 @@
         label="创建时间"
         align="center">
       </el-table-column>
-      <el-table-column label="操作" width="200" align="center">
+      <el-table-column label="操作" width="280" align="center">
           <template slot-scope="scope">
             <el-button
               size="mini"
               @click="handleUpdate(scope.$index, scope.row)">修改
+            </el-button>
+            <el-button
+              size="mini"
+              @click="handleDelete(scope.$index, scope.row)">查看详情
             </el-button>
             <el-button
               size="mini"
@@ -189,6 +203,7 @@ import moment from 'moment';
     created(){
     },
     methods:{
+      handleAddProductCate() {},
       handleUpdate() {},
       handleDelete() {},
     }
@@ -197,9 +212,7 @@ import moment from 'moment';
 
 <style scoped>
   .app-container {
-    margin-top: 40px;
-    margin-left: 120px;
-    margin-right: 120px;
+    margin: 30px;
   }
 
   .total-layout {
