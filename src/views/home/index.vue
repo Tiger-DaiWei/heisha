@@ -5,12 +5,6 @@
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets" style="margin-top: 5px"></i>
       <span style="margin-top: 5px">设备列表</span>
-      <el-button
-        class="btn-add"
-        @click="handleAddProductCate()"
-        size="mini">
-        添加
-      </el-button>
     </el-card>
     <el-table
       :data="shopLists"
@@ -64,7 +58,7 @@
             </el-button> -->
             <el-button
               size="mini"
-              @click="handleDelete(scope.$index, scope.row)">查看详情
+              @click="handleDetails(scope.row)">查看详情
             </el-button>
             <!-- <el-button
               size="mini"
@@ -85,6 +79,17 @@
         :total="total">
       </el-pagination>
     </div>
+    <el-dialog
+      title="产品详情"
+      :visible.sync="productVisible"
+      width="30%">
+      <p>设备名称: {{ currentProduct.productName }}</p>
+      <p>设备数量: {{ currentProduct.deviceCount }}</p>
+      <p>认证方式: {{ currentProduct.authType }}</p>
+      <p>产品Key: {{ currentProduct.productKey }}</p>
+      <p>节点类型: {{ currentProduct.nodeType }}</p>
+      <p>创建时间: {{ setTimeStyle(currentProduct.gmtCreate) }}</p>
+    </el-dialog>
   </div>
 </template>
 
@@ -96,6 +101,7 @@ import moment from 'moment';
     data() {
       return {
         pageLoding: false,
+        // 产品数据
         shopLists: [
           {
             authType: 'secret',
@@ -222,6 +228,10 @@ import moment from 'moment';
           pageNum: 1,
           pageSize: 5
         },
+        // 产品详情弹窗
+        productVisible: false,
+        // 弹窗展现的产品
+        currentProduct: {},
       }
     },
     created(){
@@ -251,6 +261,10 @@ import moment from 'moment';
       },
       setTimeStyle(val) {
         return moment(val).format('YYYY-MM-DD');
+      },
+      handleDetails(str) {
+        this.productVisible = true;
+        this.currentProduct = JSON.parse(JSON.stringify(str));
       },
     }
   }
