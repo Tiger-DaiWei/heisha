@@ -1,123 +1,109 @@
-<template> 
-  <div class="app-container">
-    <el-card class="filter-container" shadow="never">
-      <div>
-        <i class="el-icon-search"></i>
-        <span>筛选搜索</span>
-        <el-button
-          style="float:right"
-          type="primary"
-          @click="handleSearchList()"
-          size="small">
-          查询搜索
-        </el-button>
-        <el-button
-          style="float:right;margin-right: 15px"
-          @click="handleResetSearch()"
-          size="small">
-          重置
-        </el-button>
-      </div>
-      <div style="margin-top: 15px">
-        <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
-          <el-form-item label="资源名称：">
-            <el-input v-model="listQuery.nameKeyword" class="input-width" placeholder="资源名称" clearable></el-input>
-          </el-form-item>
-          <el-form-item label="资源路径：">
-            <el-input v-model="listQuery.urlKeyword" class="input-width" placeholder="资源路径" clearable></el-input>
-          </el-form-item>
-          <el-form-item label="资源分类：">
-            <el-select v-model="listQuery.categoryId" placeholder="全部" clearable class="input-width">
-              <el-option v-for="item in categoryOptions"
-                         :key="item.value"
-                         :label="item.label"
-                         :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-      </div>
-    </el-card>
+<template>
+  <div
+    class="app-container"
+    v-loading="pageLoding"> 
     <el-card class="operate-container" shadow="never">
-      <i class="el-icon-tickets"></i>
-      <span>数据列表</span>
-      <el-button size="mini" class="btn-add" @click="handleAdd()" style="margin-left: 20px">添加</el-button>
-      <el-button size="mini" class="btn-add" @click="handleShowCategory()">资源分类</el-button>
+      <i class="el-icon-tickets" style="margin-top: 5px"></i>
+      <span style="margin-top: 5px">设备列表</span>      <el-button
+        class="btn-add"
+        @click="handleAddProduct()"
+        size="mini">
+        添加
+      </el-button>
     </el-card>
-    <div class="table-container">
-      <el-table ref="resourceTable"
-                :data="list"
-                style="width: 100%;"
-                v-loading="listLoading" border>
-        <el-table-column label="编号" width="100" align="center">
-          <template slot-scope="scope">{{scope.row.id}}</template>
-        </el-table-column>
-        <el-table-column label="资源名称" align="center">
-          <template slot-scope="scope">{{scope.row.name}}</template>
-        </el-table-column>
-        <el-table-column label="资源路径" align="center">
-          <template slot-scope="scope">{{scope.row.url}}</template>
-        </el-table-column>
-        <el-table-column label="描述" align="center">
-          <template slot-scope="scope">{{scope.row.description}}</template>
-        </el-table-column>
-        <el-table-column label="添加时间" width="160" align="center">
-          <template slot-scope="scope">{{scope.row.createTime | formatDateTime}}</template>
-        </el-table-column>
-        <el-table-column label="操作" width="140" align="center">
+    <el-table
+      :data="shopLists"
+      border
+      center
+      style="width: 100%">
+      <el-table-column
+        type="index"
+        width="50"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="authType"
+        label="认证方式"
+        width="180"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="deviceCount"
+        label="设备数量"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="productName"
+        label="设备名称"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="productKey"
+        label="产品Key"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="nodeType"
+        label="节点类型"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="gmtCreate"
+        label="创建时间"
+        align="center">
+        <template slot-scope="scope">
+          <span>{{ setTimeStyle(scope.row.gmtCreate) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" width="160" align="center">
           <template slot-scope="scope">
-            <el-button size="mini"
-                       type="text"
-                       @click="handleUpdate(scope.$index, scope.row)">
-              编辑
+            <el-button
+              size="mini"
+              @click="handleUpdate(scope.row)">修改
             </el-button>
-            <el-button size="mini"
-                       type="text"
-                       @click="handleDelete(scope.$index, scope.row)">删除
+            <el-button
+              size="mini"
+              @click="handleDelete(scope.row)">删除
             </el-button>
           </template>
         </el-table-column>
-      </el-table>
-    </div>
+    </el-table>
     <div class="pagination-container">
       <el-pagination
         background
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         layout="total, sizes,prev, pager, next,jumper"
-        :current-page.sync="listQuery.pageNum"
         :page-size="listQuery.pageSize"
         :page-sizes="[10,15,20]"
+        :current-page.sync="listQuery.pageNum"
         :total="total">
       </el-pagination>
     </div>
     <el-dialog
-      :title="isEdit?'编辑资源':'添加资源'"
-      :visible.sync="dialogVisible"
+      :title="operateType === 'add' ? '增加产品' : '修改产品'"
+      :visible.sync="productVisible"
       width="40%">
-      <el-form :model="resource"
-               ref="resourceForm"
-               label-width="150px" size="small">
-        <el-form-item label="资源名称：">
-          <el-input v-model="resource.name" style="width: 250px"></el-input>
+      <el-form
+        :model="currentProduct"
+        ref="roleForm1"
+        label-width="150px"
+        size="small"
+      >
+        <el-form-item label="设备名称:">
+          <el-input v-model="currentProduct.productName" style="width: 250px"></el-input>
         </el-form-item>
-        <el-form-item label="资源路径：">
-          <el-input v-model="resource.url" style="width: 250px"></el-input>
+        <el-form-item label="设备数量:">
+          <el-input v-model="currentProduct.deviceCount" style="width: 250px"></el-input>
         </el-form-item>
-        <el-form-item label="资源分类：">
-          <el-select v-model="resource.categoryId" placeholder="全部" clearable style="width: 250px">
-            <el-option v-for="item in categoryOptions"
-                       :key="item.value"
-                       :label="item.label"
-                       :value="item.value">
-            </el-option>
-          </el-select>
+        <el-form-item label="认证方式:">
+          <el-input v-model="currentProduct.authType" style="width: 250px"></el-input>
         </el-form-item>
-        <el-form-item label="描述：">
-          <el-input v-model="resource.description"
-                    type="textarea"
-                    :rows="5"
-                    style="width: 250px"></el-input>
+        <el-form-item label="产品Key:">
+          <el-input v-model="currentProduct.productKey" style="width: 250px"></el-input>
+        </el-form-item>
+        <el-form-item label="节点类型:">
+          <el-input v-model="currentProduct.nodeType" style="width: 250px"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -127,147 +113,373 @@
     </el-dialog>
   </div>
 </template>
-<script>
-  import {fetchList,createResource,updateResource,deleteResource} from '@/api/resource';
-  import {listAllCate} from '@/api/resourceCategory';
-  import {formatDate} from '@/utils/date';
 
-  const defaultListQuery = {
-    pageNum: 1,
-    pageSize: 10,
-    nameKeyword: null,
-    urlKeyword: null,
-    categoryId:null
-  };
-  const defaultResource = {
-    id: null,
-    name: null,
-    url: null,
-    categoryId: null,
-    description:''
-  };
+<script>
+import { listProduct, creatProduct, updateProduct, deleteProduct } from '@/api/heiShaProduct';
+import moment from 'moment';
   export default {
-    name: 'resourceList',
+    name: 'home',
     data() {
       return {
-        listQuery: Object.assign({}, defaultListQuery),
-        list: null,
+        pageLoding: false,
+        // 产品数据
+        shopLists: [
+          {
+            authType: 'secret',
+            deviceCount: 0,
+            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
+            nodeType: 0,
+            productKey: 'a1v5CSFONku',
+            productName: ' product_test_bill',
+          },
+          {
+             authType: 'secret',
+             dataFormat: 0,
+             deviceCount: 3,
+             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
+             nodeType: 0,
+             productKey: 'a1CWEsUjqsI',
+             productName: 'DNEST',
+          },
+          {
+            authType: 'secret',
+            deviceCount: 0,
+            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
+            nodeType: 0,
+            productKey: 'a1v5CSFONku',
+            productName: ' product_test_bill',
+          },
+          {
+             authType: 'secret',
+             dataFormat: 0,
+             deviceCount: 3,
+             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
+             nodeType: 0,
+             productKey: 'a1CWEsUjqsI',
+             productName: 'DNEST',
+          },
+          {
+            authType: 'secret',
+            deviceCount: 0,
+            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
+            nodeType: 0,
+            productKey: 'a1v5CSFONku',
+            productName: ' product_test_bill',
+          },
+          {
+             authType: 'secret',
+             dataFormat: 0,
+             deviceCount: 3,
+             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
+             nodeType: 0,
+             productKey: 'a1CWEsUjqsI',
+             productName: 'DNEST',
+          },
+          {
+            authType: 'secret',
+            deviceCount: 0,
+            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
+            nodeType: 0,
+            productKey: 'a1v5CSFONku',
+            productName: ' product_test_bill',
+          },
+          {
+             authType: 'secret',
+             dataFormat: 0,
+             deviceCount: 3,
+             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
+             nodeType: 0,
+             productKey: 'a1CWEsUjqsI',
+             productName: 'DNEST',
+          },
+          {
+            authType: 'secret',
+            deviceCount: 0,
+            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
+            nodeType: 0,
+            productKey: 'a1v5CSFONku',
+            productName: ' product_test_bill',
+          },
+          {
+             authType: 'secret',
+             dataFormat: 0,
+             deviceCount: 3,
+             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
+             nodeType: 0,
+             productKey: 'a1CWEsUjqsI',
+             productName: 'DNEST',
+          },
+          {
+            authType: 'secret',
+            deviceCount: 0,
+            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
+            nodeType: 0,
+            productKey: 'a1v5CSFONku',
+            productName: ' product_test_bill',
+          },
+          {
+             authType: 'secret',
+             dataFormat: 0,
+             deviceCount: 3,
+             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
+             nodeType: 0,
+             productKey: 'a1CWEsUjqsI',
+             productName: 'DNEST',
+          },
+          {
+            authType: 'secret',
+            deviceCount: 0,
+            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
+            nodeType: 0,
+            productKey: 'a1v5CSFONku',
+            productName: ' product_test_bill',
+          },
+          {
+             authType: 'secret',
+             dataFormat: 0,
+             deviceCount: 3,
+             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
+             nodeType: 0,
+             productKey: 'a1CWEsUjqsI',
+             productName: 'DNEST',
+          }
+        ],
         total: null,
-        listLoading: false,
-        dialogVisible: false,
-        resource: Object.assign({}, defaultResource),
-        isEdit: false,
-        categoryOptions:[],
-        defaultCategoryId:null
+        listQuery: {
+          pageNum: 1,
+          pageSize: 5
+        },
+        // 产品详情弹窗
+        productVisible: false,
+        // 弹窗展现的产品
+        currentProduct: {
+          productName: '',
+          deviceCount: '',
+          authType: '',
+          productKey: '',
+          nodeType: '',
+          gmtCreate: '',
+        },
+        operateType: 'add',
       }
     },
-    created() {
-      this.getList();
-      this.getCateList();
+    created(){
+      this.getListProduct();
     },
-    filters: {
-      formatDateTime(time) {
-        if (time == null || time === '') {
-          return 'N/A';
-        }
-        let date = new Date(time);
-        return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
-      }
-    },
-    methods: {
-      handleResetSearch() {
-        this.listQuery = Object.assign({}, defaultListQuery);
-      },
-      handleSearchList() {
-        this.listQuery.pageNum = 1;
-        this.getList();
-      },
-      handleSizeChange(val) {
-        this.listQuery.pageNum = 1;
-        this.listQuery.pageSize = val;
-        this.getList();
-      },
-      handleCurrentChange(val) {
-        this.listQuery.pageNum = val;
-        this.getList();
-      },
-      handleAdd() {
-        this.dialogVisible = true;
-        this.isEdit = false;
-        this.resource = Object.assign({},defaultResource);
-        this.resource.categoryId = this.defaultCategoryId;
-      },
-      handleDelete(index, row) {
-        this.$confirm('是否要删除该资源?', '提示', {
-          confirmButtonText: '确定',
+    methods:{
+      handleAddProductCate() {},
+      handleUpdate() {},
+      handleDelete(val) {
+        this.$confirm('是否删除产品', '提示', {
+          confirmBUttonText: '确定',
           cancelButtonText: '取消',
-          type: 'warning'
+          showClose: true,
         }).then(() => {
-          deleteResource(row.id).then(response => {
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
-            });
-            this.getList();
-          });
+          deleteProduct({productKey: val.productKey}).then(({code}) => {
+            if (code === '200') {
+              this.$message({
+                type: 'success',
+                message: '删除产品成功',
+              })
+              this.getListProduct();
+            } else {
+              this.$message({
+                type: 'error',
+                message: '删除产品失败',
+              })              
+            }
+          }); 
+        })
+      },
+      handleSizeChange() {
+        this.getListProduct();
+      },
+      handleCurrentChange() {
+        this.getListProduct();
+      },
+      getListProduct() {
+        this.pageLoding = true;
+        this.shopLists = [];
+        listProduct(this.listQuery).then(response => {
+          // const { list, pageNum, pageSize, total, totalPage } = response.data;
+          const { list, total } = response.data
+          this.total = total;
+          this.shopLists = list;
+        }).finally(() => {
+          this.pageLoding = false;
         });
       },
-      handleUpdate(index, row) {
-        this.dialogVisible = true;
-        this.isEdit = true;
-        this.resource = Object.assign({},row);
+      setTimeStyle(val) {
+        return moment(val).format('YYYY-MM-DD');
+      },
+      // 添加
+      handleAddProduct() {
+        this.productVisible = true;
+        this.operateType = 'add';
+      },
+      // 修改
+      handleUpdate(val) {
+        const {
+          productName,
+          deviceCount,
+          authType,
+          productKey,
+          nodeType,
+        } = val;
+        this.currentProduct = {
+          productName,
+          deviceCount,
+          authType,
+          productKey,
+          nodeType,          
+        }
+        this.productVisible = true;
+        this.operateType = 'update';
       },
       handleDialogConfirm() {
-        this.$confirm('是否要确认?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          if (this.isEdit) {
-            updateResource(this.resource.id,this.resource).then(response => {
+        const {
+          productName,
+          deviceCount,
+          authType,
+          productKey,
+          nodeType,
+        } = this.currentProduct;
+        if (!productName || !deviceCount || !authType || !productKey || !nodeType ) {
+          this.$message({
+            type: 'error',
+            message: '请将产品信息填写完全',
+          })
+          return false;
+        }
+        if (this.operateType === 'add') {
+          creatProduct(this.currentProduct).then(({code}) => {
+            if (code === '200') {
               this.$message({
-                message: '修改成功！',
-                type: 'success'
-              });
-              this.dialogVisible =false;
-              this.getList();
-            })
-          } else {
-            createResource(this.resource).then(response => {
+                type: 'success',
+                message: '添加产品成功',
+              })
+              this.getListProduct();
+            } else {
               this.$message({
-                message: '添加成功！',
-                type: 'success'
-              });
-              this.dialogVisible =false;
-              this.getList();
-            })
-          }
-        })
+                type: 'error',
+                message: '添加产品失败',
+              })              
+            }
+          }).finally(() => {
+            this.productVisible = false;
+          });
+        } else {
+          updateProduct(this.currentProduct).then(({code}) => {
+            if (code === '200') {
+              this.$message({
+                type: 'success',
+                message: '修改产品成功',
+              })
+              this.getListProduct();
+            } else {
+              this.$message({
+                type: 'error',
+                message: '修改产品失败',
+              })              
+            }
+          }).finally(() => {
+            this.productVisible = false;
+          });          
+        }
       },
-      handleShowCategory(){
-        this.$router.push({path: '/ums/resourceCategory'})
-      },
-      getList() {
-        this.listLoading = true;
-        fetchList(this.listQuery).then(response => {
-          this.listLoading = false;
-          this.list = response.data.list;
-          this.total = response.data.total;
-        });
-      },
-      getCateList(){
-        listAllCate().then(response=>{
-          let cateList = response.data;
-          for(let i=0;i<cateList.length;i++){
-            let cate = cateList[i];
-            this.categoryOptions.push({label:cate.name,value:cate.id});
-          }
-          this.defaultCategoryId=cateList[0].id;
-        })
-      }
     }
   }
 </script>
-<style></style>
 
+<style scoped>
+  .app-container {
+    margin: 30px;
+  }
 
+  .total-layout {
+    margin-top: 20px;
+  }
+
+  .total-frame {
+    border: 1px solid #DCDFE6;
+    padding: 20px;
+    height: 100px;
+  }
+
+  .total-icon {
+    color: #409EFF;
+    width: 60px;
+    height: 60px;
+  }
+
+  .total-title {
+    position: relative;
+    font-size: 16px;
+    color: #909399;
+    left: 70px;
+    top: -50px;
+  }
+
+  .total-value {
+    position: relative;
+    font-size: 18px;
+    color: #606266;
+    left: 70px;
+    top: -40px;
+  }
+
+  .un-handle-layout {
+    margin-top: 20px;
+    border: 1px solid #DCDFE6;
+  }
+
+  .layout-title {
+    color: #606266;
+    padding: 15px 20px;
+    background: #F2F6FC;
+    font-weight: bold;
+  }
+
+  .un-handle-content {
+    padding: 20px 40px;
+  }
+
+  .un-handle-item {
+    border-bottom: 1px solid #EBEEF5;
+    padding: 10px;
+  }
+
+  .overview-layout {
+    margin-top: 20px;
+  }
+
+  .overview-item-value {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .overview-item-title {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .out-border {
+    border: 1px solid #DCDFE6;
+  }
+
+  .statistics-layout {
+    margin-top: 20px;
+    border: 1px solid #DCDFE6;
+  }
+  .mine-layout {
+    position: absolute;
+    right: 140px;
+    top: 107px;
+    width: 250px;
+    height: 235px;
+  }
+  .address-content{
+    padding: 20px;
+    font-size: 18px
+  }
+</style>
