@@ -282,7 +282,8 @@ import moment from 'moment';
               type: 'success',
               message: '删除产品成功',
             })
-            this.getListProduct();
+            this.pageLoding = true;
+            setTimeout(() => {this.getListProduct()}, 1000);
           }); 
         })
       },
@@ -360,7 +361,8 @@ import moment from 'moment';
               type: 'success',
               message: '添加产品成功',
             })
-            this.getListProduct();
+            this.pageLoding = true;
+            setTimeout(() => {this.getListProduct()}, 1000);
           }).finally(() => {
             this.productVisible = false;
           });
@@ -370,7 +372,8 @@ import moment from 'moment';
               type: 'success',
               message: '修改产品成功',
             })
-            this.getListProduct();
+            this.pageLoding = true;
+            setTimeout(() => {this.getListProduct()}, 1000);
           }).finally(() => {
             this.productVisible = false;
           });

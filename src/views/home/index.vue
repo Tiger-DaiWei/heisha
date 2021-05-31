@@ -247,7 +247,7 @@ import moment from 'moment';
         this.getListProduct();
       },
       handleCurrentChange(val) {
-        this.listQuery.pageSize = val;
+        this.listQuery.pageNum = val;
         this.getListProduct();
       },
       getListProduct() {
