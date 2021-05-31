@@ -1,5 +1,7 @@
 <template>
-  <div class="app-container"> 
+  <div
+    class="app-container"
+    v-loading="pageLoding"> 
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets" style="margin-top: 5px"></i>
       <span style="margin-top: 5px">设备列表</span>
@@ -50,38 +52,55 @@
         prop="gmtCreate"
         label="创建时间"
         align="center">
+        <template slot-scope="scope">
+          <span>{{ setTimeStyle(scope.row.gmtCreate) }}</span>
+        </template>
       </el-table-column>
-      <el-table-column label="操作" width="280" align="center">
+      <el-table-column label="操作" width="140" align="center">
           <template slot-scope="scope">
-            <el-button
+            <!-- <el-button
               size="mini"
               @click="handleUpdate(scope.$index, scope.row)">修改
-            </el-button>
+            </el-button> -->
             <el-button
               size="mini"
               @click="handleDelete(scope.$index, scope.row)">查看详情
             </el-button>
-            <el-button
+            <!-- <el-button
               size="mini"
               @click="handleDelete(scope.$index, scope.row)">删除
-            </el-button>
+            </el-button> -->
           </template>
         </el-table-column>
     </el-table>
+    <div class="pagination-container">
+      <el-pagination
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        layout="total, sizes,prev, pager, next,jumper"
+        :page-size="listQuery.pageSize"
+        :page-sizes="[10,15,20]"
+        :current-page.sync="listQuery.pageNum"
+        :total="total">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
 <script>
+import { listProduct } from '@/api/heiShaProduct';
 import moment from 'moment';
   export default {
     name: 'home',
     data() {
       return {
+        pageLoding: false,
         shopLists: [
           {
             authType: 'secret',
             deviceCount: 0,
-            gmtCreate: moment('1622086082000').format('MMMM-YY-DD'),
+            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
             nodeType: 0,
             productKey: 'a1v5CSFONku',
             productName: ' product_test_bill',
@@ -90,7 +109,7 @@ import moment from 'moment';
              authType: 'secret',
              dataFormat: 0,
              deviceCount: 3,
-             gmtCreate: moment('1622086082000').format('MMMM-YY-DD'),
+             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
              nodeType: 0,
              productKey: 'a1CWEsUjqsI',
              productName: 'DNEST',
@@ -98,7 +117,7 @@ import moment from 'moment';
           {
             authType: 'secret',
             deviceCount: 0,
-            gmtCreate: moment('1622086082000').format('MMMM-YY-DD'),
+            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
             nodeType: 0,
             productKey: 'a1v5CSFONku',
             productName: ' product_test_bill',
@@ -107,7 +126,7 @@ import moment from 'moment';
              authType: 'secret',
              dataFormat: 0,
              deviceCount: 3,
-             gmtCreate: moment('1622086082000').format('MMMM-YY-DD'),
+             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
              nodeType: 0,
              productKey: 'a1CWEsUjqsI',
              productName: 'DNEST',
@@ -115,7 +134,7 @@ import moment from 'moment';
           {
             authType: 'secret',
             deviceCount: 0,
-            gmtCreate: moment('1622086082000').format('MMMM-YY-DD'),
+            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
             nodeType: 0,
             productKey: 'a1v5CSFONku',
             productName: ' product_test_bill',
@@ -124,7 +143,7 @@ import moment from 'moment';
              authType: 'secret',
              dataFormat: 0,
              deviceCount: 3,
-             gmtCreate: moment('1622086082000').format('MMMM-YY-DD'),
+             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
              nodeType: 0,
              productKey: 'a1CWEsUjqsI',
              productName: 'DNEST',
@@ -132,7 +151,7 @@ import moment from 'moment';
           {
             authType: 'secret',
             deviceCount: 0,
-            gmtCreate: moment('1622086082000').format('MMMM-YY-DD'),
+            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
             nodeType: 0,
             productKey: 'a1v5CSFONku',
             productName: ' product_test_bill',
@@ -141,7 +160,7 @@ import moment from 'moment';
              authType: 'secret',
              dataFormat: 0,
              deviceCount: 3,
-             gmtCreate: moment('1622086082000').format('MMMM-YY-DD'),
+             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
              nodeType: 0,
              productKey: 'a1CWEsUjqsI',
              productName: 'DNEST',
@@ -149,7 +168,7 @@ import moment from 'moment';
           {
             authType: 'secret',
             deviceCount: 0,
-            gmtCreate: moment('1622086082000').format('MMMM-YY-DD'),
+            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
             nodeType: 0,
             productKey: 'a1v5CSFONku',
             productName: ' product_test_bill',
@@ -158,7 +177,7 @@ import moment from 'moment';
              authType: 'secret',
              dataFormat: 0,
              deviceCount: 3,
-             gmtCreate: moment('1622086082000').format('MMMM-YY-DD'),
+             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
              nodeType: 0,
              productKey: 'a1CWEsUjqsI',
              productName: 'DNEST',
@@ -166,7 +185,7 @@ import moment from 'moment';
           {
             authType: 'secret',
             deviceCount: 0,
-            gmtCreate: moment('1622086082000').format('MMMM-YY-DD'),
+            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
             nodeType: 0,
             productKey: 'a1v5CSFONku',
             productName: ' product_test_bill',
@@ -175,7 +194,7 @@ import moment from 'moment';
              authType: 'secret',
              dataFormat: 0,
              deviceCount: 3,
-             gmtCreate: moment('1622086082000').format('MMMM-YY-DD'),
+             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
              nodeType: 0,
              productKey: 'a1CWEsUjqsI',
              productName: 'DNEST',
@@ -183,7 +202,7 @@ import moment from 'moment';
           {
             authType: 'secret',
             deviceCount: 0,
-            gmtCreate: moment('1622086082000').format('MMMM-YY-DD'),
+            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
             nodeType: 0,
             productKey: 'a1v5CSFONku',
             productName: ' product_test_bill',
@@ -192,20 +211,47 @@ import moment from 'moment';
              authType: 'secret',
              dataFormat: 0,
              deviceCount: 3,
-             gmtCreate: moment('1622086082000').format('MMMM-YY-DD'),
+             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
              nodeType: 0,
              productKey: 'a1CWEsUjqsI',
              productName: 'DNEST',
           }
         ],
+        total: null,
+        listQuery: {
+          pageNum: 1,
+          pageSize: 5
+        },
       }
     },
     created(){
+      this.getListProduct();
     },
     methods:{
       handleAddProductCate() {},
       handleUpdate() {},
       handleDelete() {},
+      handleSizeChange() {
+        this.getListProduct();
+      },
+      handleCurrentChange() {
+        this.getListProduct();
+      },
+      getListProduct() {
+        this.pageLoding = true;
+        this.shopLists = [];
+        listProduct(this.listQuery).then(response => {
+          // const { list, pageNum, pageSize, total, totalPage } = response.data;
+          const { list, total } = response.data
+          this.total = total;
+          this.shopLists = list;
+        }).finally(() => {
+          this.pageLoding = false;
+        });
+      },
+      setTimeStyle(val) {
+        return moment(val).format('YYYY-MM-DD');
+      },
     }
   }
 </script>
