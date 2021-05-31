@@ -2,20 +2,17 @@
   <div>
     <el-card class="login-form-layout">
       <el-form autoComplete="on"
-               :model="loginForm"
-               :rules="loginRules"
-               ref="loginForm"
-               label-position="left">
-        <div style="text-align: center">
-          <svg-icon icon-class="login-mall" style="width: 56px;height: 56px;color: #409EFF"></svg-icon>
-        </div>
-        <h2 class="login-title color-main">heiSha</h2>
+        :model="loginForm"
+        :rules="loginRules"
+        ref="loginForm"
+        label-position="left">
+        <img :src="logoUrl" class="logo-style" />
         <el-form-item prop="username">
           <el-input name="username"
-                    type="text"
-                    v-model="loginForm.username"
-                    autoComplete="on"
-                    placeholder="请输入用户名">
+            type="text"
+            v-model="loginForm.username"
+            autoComplete="on"
+            placeholder="请输入用户名">
           <span slot="prefix">
             <svg-icon icon-class="user" class="color-main"></svg-icon>
           </span>
@@ -23,11 +20,11 @@
         </el-form-item>
         <el-form-item prop="password">
           <el-input name="password"
-                    :type="pwdType"
-                    @keyup.enter.native="handleLogin"
-                    v-model="loginForm.password"
-                    autoComplete="on"
-                    placeholder="请输入密码">
+            :type="pwdType"
+            @keyup.enter.native="handleLogin"
+            v-model="loginForm.password"
+            autoComplete="on"
+            placeholder="请输入密码">
           <span slot="prefix">
             <svg-icon icon-class="password" class="color-main"></svg-icon>
           </span>
@@ -49,6 +46,7 @@
 
 <script>
   import {isvalidUsername} from '@/utils/validate';
+  import logoUrl from '@/assets/images/logo.jpg';
   import {setSupport,getSupport,setCookie,getCookie} from '@/utils/support';
   import login_center_bg from '@/assets/images/login_center_bg.png'
 
@@ -81,6 +79,7 @@
         loading: false,
         pwdType: 'password',
         login_center_bg,
+        logoUrl,
       }
     },
     created() {
@@ -138,8 +137,10 @@
     border-top: 10px solid #409EFF;
   }
 
-  .login-title {
-    text-align: center;
+  .logo-style {
+    display: block;
+    width: 46px;
+    margin: 0 auto 14px;
   }
 
   .login-center-layout {
