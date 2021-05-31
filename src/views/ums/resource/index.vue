@@ -75,7 +75,7 @@
         @current-change="handleCurrentChange"
         layout="total, sizes,prev, pager, next,jumper"
         :page-size="listQuery.pageSize"
-        :page-sizes="[10,15,20]"
+        :page-sizes="[5,10,15,20]"
         :current-page.sync="listQuery.pageNum"
         :total="total">
       </el-pagination>
@@ -286,10 +286,13 @@ import moment from 'moment';
           }); 
         })
       },
-      handleSizeChange() {
+      handleSizeChange(val) {
+        this.listQuery.pageNum = 1;
+        this.listQuery.pageSize = val;
         this.getListProduct();
       },
-      handleCurrentChange() {
+      handleCurrentChange(val) {
+        this.listQuery.pageNum = val;
         this.getListProduct();
       },
       getListProduct() {
