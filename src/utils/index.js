@@ -52,3 +52,8 @@ export function formatTime(time, option) {
     return d.getMonth() + 1 + '月' + d.getDate() + '日' + d.getHours() + '时' + d.getMinutes() + '分'
   }
 }
+
+// 校验去空格的字符串的长度
+export function strLength(val) {
+  return val.toString().replace(/\s+/g, '').length;
+}

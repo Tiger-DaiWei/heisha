@@ -83,6 +83,7 @@
     <el-dialog
       :title="operateType === 'add' ? '增加产品' : '修改产品'"
       :visible.sync="productVisible"
+      :before-close="handleDialogClose"
       width="40%">
       <el-form
         :model="currentProduct"
@@ -107,7 +108,7 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false" size="small">取 消</el-button>
+        <el-button @click="handleDialogClose" size="small">取 消</el-button>
         <el-button type="primary" @click="handleDialogConfirm()" size="small">确 定</el-button>
       </span>
     </el-dialog>
@@ -116,6 +117,7 @@
 
 <script>
 import { listProduct, creatProduct, updateProduct, deleteProduct } from '@/api/heiShaProduct';
+import {strLength} from '@/utils/index';
 import moment from 'moment';
   export default {
     name: 'home',
@@ -276,18 +278,11 @@ import moment from 'moment';
           showClose: true,
         }).then(() => {
           deleteProduct({productKey: val.productKey}).then(({code}) => {
-            if (code === '200') {
-              this.$message({
-                type: 'success',
-                message: '删除产品成功',
-              })
-              this.getListProduct();
-            } else {
-              this.$message({
-                type: 'error',
-                message: '删除产品失败',
-              })              
-            }
+            this.$message({
+              type: 'success',
+              message: '删除产品成功',
+            })
+            this.getListProduct();
           }); 
         })
       },
@@ -301,7 +296,6 @@ import moment from 'moment';
         this.pageLoding = true;
         this.shopLists = [];
         listProduct(this.listQuery).then(response => {
-          // const { list, pageNum, pageSize, total, totalPage } = response.data;
           const { list, total } = response.data
           this.total = total;
           this.shopLists = list;
@@ -331,7 +325,7 @@ import moment from 'moment';
           deviceCount,
           authType,
           productKey,
-          nodeType,          
+          nodeType,
         }
         this.productVisible = true;
         this.operateType = 'update';
@@ -344,48 +338,51 @@ import moment from 'moment';
           productKey,
           nodeType,
         } = this.currentProduct;
-        if (!productName || !deviceCount || !authType || !productKey || !nodeType ) {
+        if (
+          !strLength(productName)
+          || !strLength(deviceCount)
+          || !strLength(authType)
+          || !strLength(productKey)
+          || !strLength(nodeType)
+        ) {
           this.$message({
             type: 'error',
-            message: '请将产品信息填写完全',
+            message: '请将信息填写完全',
           })
           return false;
         }
         if (this.operateType === 'add') {
           creatProduct(this.currentProduct).then(({code}) => {
-            if (code === '200') {
-              this.$message({
-                type: 'success',
-                message: '添加产品成功',
-              })
-              this.getListProduct();
-            } else {
-              this.$message({
-                type: 'error',
-                message: '添加产品失败',
-              })              
-            }
+            this.$message({
+              type: 'success',
+              message: '添加产品成功',
+            })
+            this.getListProduct();
           }).finally(() => {
             this.productVisible = false;
           });
         } else {
           updateProduct(this.currentProduct).then(({code}) => {
-            if (code === '200') {
-              this.$message({
-                type: 'success',
-                message: '修改产品成功',
-              })
-              this.getListProduct();
-            } else {
-              this.$message({
-                type: 'error',
-                message: '修改产品失败',
-              })              
-            }
+            this.$message({
+              type: 'success',
+              message: '修改产品成功',
+            })
+            this.getListProduct();
           }).finally(() => {
             this.productVisible = false;
-          });          
+          });
         }
+      },
+      handleDialogClose() {
+        this.productVisible = false;
+        this.currentProduct = {
+          productName: '',
+          deviceCount: '',
+          authType: '',
+          productKey: '',
+          nodeType: '',
+          gmtCreate: '',
+        };
       },
     }
   }
