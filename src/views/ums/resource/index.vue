@@ -94,7 +94,7 @@
         <el-form-item label="产品名称:">
           <el-input v-model="currentProduct.productName" style="width: 250px"></el-input>
         </el-form-item>
-        <el-form-item label="产品数量:">
+        <!-- <el-form-item label="设备数量:">
           <el-input v-model="currentProduct.deviceCount" style="width: 250px"></el-input>
         </el-form-item>
         <el-form-item label="认证方式:">
@@ -105,7 +105,7 @@
         </el-form-item>
         <el-form-item label="节点类型:">
           <el-input v-model="currentProduct.nodeType" style="width: 250px"></el-input>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="handleDialogClose" size="small">取 消</el-button>
@@ -256,11 +256,11 @@ import moment from 'moment';
         // 弹窗展现的产品
         currentProduct: {
           productName: '',
-          deviceCount: '',
-          authType: '',
+          // deviceCount: '',
+          // authType: '',
           productKey: '',
-          nodeType: '',
-          gmtCreate: '',
+          // nodeType: '',
+          // gmtCreate: '',
         },
         operateType: 'add',
       }
@@ -319,17 +319,17 @@ import moment from 'moment';
       handleUpdate(val) {
         const {
           productName,
-          deviceCount,
-          authType,
           productKey,
-          nodeType,
+          // deviceCount,
+          // authType,
+          // nodeType,
         } = val;
         this.currentProduct = {
           productName,
-          deviceCount,
-          authType,
           productKey,
-          nodeType,
+          // deviceCount,
+          // authType,
+          // nodeType,
         }
         this.productVisible = true;
         this.operateType = 'update';
@@ -337,18 +337,12 @@ import moment from 'moment';
       handleDialogConfirm() {
         const {
           productName,
-          deviceCount,
-          authType,
-          productKey,
-          nodeType,
+          // deviceCount,
+          // authType,
+          // productKey,
+          // nodeType,
         } = this.currentProduct;
-        if (
-          !strLength(productName)
-          || !strLength(deviceCount)
-          || !strLength(authType)
-          || !strLength(productKey)
-          || !strLength(nodeType)
-        ) {
+        if (!strLength(productName)) {
           this.$message({
             type: 'error',
             message: '请将信息填写完全',
@@ -356,7 +350,7 @@ import moment from 'moment';
           return false;
         }
         if (this.operateType === 'add') {
-          creatProduct(this.currentProduct).then(({code}) => {
+          creatProduct(this.currentProduct).then(() => {
             this.$message({
               type: 'success',
               message: '添加产品成功',
@@ -367,7 +361,7 @@ import moment from 'moment';
             this.productVisible = false;
           });
         } else {
-          updateProduct(this.currentProduct).then(({code}) => {
+          updateProduct(this.currentProduct).then(() => {
             this.$message({
               type: 'success',
               message: '修改产品成功',

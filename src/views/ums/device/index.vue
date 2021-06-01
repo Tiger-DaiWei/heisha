@@ -28,6 +28,11 @@
         align="center">
       </el-table-column>
       <el-table-column
+        prop="nickname"
+        label="设备昵称"
+        align="center">
+      </el-table-column>
+      <el-table-column
         prop="productKey"
         label="产品Key"
         align="center">
@@ -94,10 +99,10 @@
         label-width="180px"
         size="small"
       >
-        <el-form-item label="设备名称:">
+        <!-- <el-form-item label="设备名称:">
           <el-input v-model="currentProduct.deviceName" style="width: 250px"></el-input>
-        </el-form-item>
-        <el-form-item label="设备备注名称:">
+        </el-form-item> -->
+        <el-form-item label="设备昵称:">
           <el-input v-model="currentProduct.nickname" style="width: 250px"></el-input>
         </el-form-item>
         <el-form-item label="隶属的产品ProductKey:">
@@ -142,7 +147,7 @@ import moment from 'moment';
         productVisible: false,
         // 弹窗展现的设备
         currentProduct: {
-          deviceName: '',
+          // deviceName: '',
           nickname: '',
           productKey: '',
         },
@@ -231,34 +236,13 @@ import moment from 'moment';
         this.productVisible = true;
         this.operateType = 'add';
       },
-      // 修改
-      handleUpdate(val) {
-        const {
-          productName,
-          deviceCount,
-          authType,
-          productKey,
-          nodeType,
-        } = val;
-        this.currentProduct = {
-          productName,
-          deviceCount,
-          authType,
-          productKey,
-          nodeType,
-        }
-        this.productVisible = true;
-        this.operateType = 'update';
-      },
       handleDialogConfirm() {
         const {
-          deviceName,
           nickname,
           productKey,
         } = this.currentProduct;
         if (
-          !strLength(deviceName)
-          || !strLength(nickname)
+          !strLength(nickname)
           || !strLength(productKey)
         ) {
           this.$message({
@@ -281,12 +265,8 @@ import moment from 'moment';
       handleDialogClose() {
         this.productVisible = false;
         this.currentProduct = {
-          productName: '',
-          deviceCount: '',
-          authType: '',
+          nickname: '',
           productKey: '',
-          nodeType: '',
-          gmtCreate: '',
         };
       },
       // 启用禁用设备
