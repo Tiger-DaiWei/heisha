@@ -4,9 +4,10 @@
     v-loading="pageLoding"> 
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets" style="margin-top: 5px"></i>
-      <span style="margin-top: 5px">设备列表</span>      <el-button
+      <span style="margin-top: 5px">设备列表</span>
+      <el-button
         class="btn-add"
-        @click="handleAddProduct()"
+        @click="handleAddProduct"
         size="mini">
         注册
       </el-button>
@@ -56,7 +57,7 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="handleUpdate(scope.row)">重置
+              @click="handleReset(scope.row)">重置
             </el-button>
             <el-button
               size="mini"
@@ -86,7 +87,7 @@
       :title="operateType === 'add' ? '注册设备' : '重置设备'"
       :visible.sync="productVisible"
       :before-close="handleDialogClose"
-      width="40%">
+      width="600px">
       <el-form
         :model="currentProduct"
         ref="roleForm1"
@@ -100,7 +101,17 @@
           <el-input v-model="currentProduct.nickname" style="width: 250px"></el-input>
         </el-form-item>
         <el-form-item label="隶属的产品ProductKey:">
-          <el-input v-model="currentProduct.productKey" style="width: 250px"></el-input>
+          <el-select
+            v-model="currentProduct.productKey"
+            placeholder="隶属的产品ProductKey"
+             style="width: 250px">
+            <el-option
+              v-for="item in productKeyList"
+              :key="item.productKey"
+              :label="item.productName"
+              :value="item.productKey">
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -112,7 +123,7 @@
 </template>
 
 <script>
-import { deviceList, deviceCreate, deviceDelete, deviceDisable, deviceEnable, deviceReset } from '@/api/heiShaProduct';
+import { deviceList, deviceCreate, deviceDelete, deviceDisable, deviceEnable, deviceReset, listProduct } from '@/api/heiShaProduct';
 import {strLength} from '@/utils/index';
 import moment from 'moment';
   export default {
@@ -136,23 +147,40 @@ import moment from 'moment';
           productKey: '',
         },
         operateType: 'add',
+        // 产品key列表
+        productKeyList: [],
       }
     },
     created(){
       this.getListDevice();
+      this.getListProduct();
     },
     methods:{
-      handleAddProductCate() {},
-      handleUpdate(val) {
+      // 获取所有产品key
+      getListProduct() {
+        this.productKeyList = [];
+        listProduct({
+          pageNum: 1,
+          pageSize: 200,
+        }).then(response => {
+          // const { list, pageNum, pageSize, total, totalPage } = response.data;
+          const { list } = response.data
+          this.productKeyList = list;
+        }).finally(() => {
+          this.pageLoding = false;
+        });
+      },
+      // 重置
+      handleReset(val) {
         this.$confirm('是否重置设备', '提示', {
           confirmBUttonText: '确定',
           cancelButtonText: '取消',
           showClose: true,
         }).then(() => {
-          deviceDelete({iotId: val.iotId}).then(({code}) => {
+          deviceReset({iotId: val.iotId}).then(() => {
             this.$message({
               type: 'success',
-              message: '删除设备成功',
+              message: '重置设备成功',
             })
             this.pageLoding = true;
             setTimeout(() => {this.getListDevice()}, 4000);
@@ -165,7 +193,7 @@ import moment from 'moment';
           cancelButtonText: '取消',
           showClose: true,
         }).then(() => {
-          deviceDelete({iotId: val.iotId}).then(({code}) => {
+          deviceDelete({iotId: val.iotId}).then(() => {
             this.$message({
               type: 'success',
               message: '删除设备成功',

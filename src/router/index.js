@@ -343,18 +343,20 @@ export const asyncRouterMap = [
         meta: {title: '修改菜单'},
         hidden: true
       },
+    ]
+  },
+  {
+    path:'/data',
+    component: Layout,
+    redirect: '/data/resource',
+    name: 'data',
+    meta: {title: '权限', icon: 'order'},
+    children: [
       {
         path: 'resource',
         name: 'resource',
         component: () => import('@/views/ums/resource/index'),
         meta: {title: '产品管理', icon: 'ums-resource'}
-      },
-      {
-        path: 'resourceCategory',
-        name: 'resourceCategory',
-        component: () => import('@/views/ums/resource/categoryList'),
-        meta: {title: '资源分类'},
-        hidden: true
       },
       {
         path: 'device',

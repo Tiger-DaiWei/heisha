@@ -29,7 +29,7 @@
       </el-table-column>
       <el-table-column
         prop="deviceCount"
-        label="产品数量"
+        label="设备数量"
         align="center">
       </el-table-column>
       <el-table-column
