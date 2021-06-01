@@ -112,7 +112,7 @@
 </template>
 
 <script>
-import { deviceList, deviceCreate, deviceDelete, deviceDisable, deviceEnable, listProduct, creatProduct, updateProduct, deleteProduct } from '@/api/heiShaProduct';
+import { deviceList, deviceCreate, deviceDelete, deviceDisable, deviceEnable, deviceReset } from '@/api/heiShaProduct';
 import {strLength} from '@/utils/index';
 import moment from 'moment';
   export default {
@@ -143,7 +143,22 @@ import moment from 'moment';
     },
     methods:{
       handleAddProductCate() {},
-      handleUpdate() {},
+      handleUpdate(val) {
+        this.$confirm('是否重置设备', '提示', {
+          confirmBUttonText: '确定',
+          cancelButtonText: '取消',
+          showClose: true,
+        }).then(() => {
+          deviceDelete({iotId: val.iotId}).then(({code}) => {
+            this.$message({
+              type: 'success',
+              message: '删除设备成功',
+            })
+            this.pageLoding = true;
+            setTimeout(() => {this.getListDevice()}, 4000);
+          }); 
+        })
+      },
       handleDelete(val) {
         this.$confirm('是否删除设备', '提示', {
           confirmBUttonText: '确定',
