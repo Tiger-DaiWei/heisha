@@ -4,7 +4,7 @@
     v-loading="pageLoding"> 
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets" style="margin-top: 5px"></i>
-      <span style="margin-top: 5px">设备列表</span>
+      <span style="margin-top: 5px">产品列表</span>
     </el-card>
     <el-table
       :data="shopLists"
@@ -24,12 +24,12 @@
       </el-table-column>
       <el-table-column
         prop="deviceCount"
-        label="设备数量"
+        label="产品数量"
         align="center">
       </el-table-column>
       <el-table-column
         prop="productName"
-        label="设备名称"
+        label="产品名称"
         align="center">
       </el-table-column>
       <el-table-column
@@ -83,8 +83,8 @@
       title="产品详情"
       :visible.sync="productVisible"
       width="30%">
-      <p>设备名称: {{ currentProduct.productName }}</p>
-      <p>设备数量: {{ currentProduct.deviceCount }}</p>
+      <p>产品名称: {{ currentProduct.productName }}</p>
+      <p>产品数量: {{ currentProduct.deviceCount }}</p>
       <p>认证方式: {{ currentProduct.authType }}</p>
       <p>产品Key: {{ currentProduct.productKey }}</p>
       <p>节点类型: {{ currentProduct.nodeType }}</p>

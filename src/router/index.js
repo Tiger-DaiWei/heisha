@@ -347,13 +347,20 @@ export const asyncRouterMap = [
         path: 'resource',
         name: 'resource',
         component: () => import('@/views/ums/resource/index'),
-        meta: {title: '资源列表', icon: 'ums-resource'}
+        meta: {title: '产品管理', icon: 'ums-resource'}
       },
       {
         path: 'resourceCategory',
         name: 'resourceCategory',
         component: () => import('@/views/ums/resource/categoryList'),
         meta: {title: '资源分类'},
+        hidden: true
+      },
+      {
+        path: 'device',
+        name: 'device',
+        component: () => import('@/views/ums/device'),
+        meta: {title: '设备管理'},
         hidden: true
       }
     ]

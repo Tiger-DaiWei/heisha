@@ -4,7 +4,7 @@
     v-loading="pageLoding"> 
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets" style="margin-top: 5px"></i>
-      <span style="margin-top: 5px">产品列表</span>      <el-button
+      <span style="margin-top: 5px">设备列表</span>      <el-button
         class="btn-add"
         @click="handleAddProduct()"
         size="mini">
@@ -29,17 +29,17 @@
       </el-table-column>
       <el-table-column
         prop="deviceCount"
-        label="产品数量"
+        label="设备数量"
         align="center">
       </el-table-column>
       <el-table-column
         prop="productName"
-        label="产品名称"
+        label="设备名称"
         align="center">
       </el-table-column>
       <el-table-column
         prop="productKey"
-        label="产品Key"
+        label="设备Key"
         align="center">
       </el-table-column>
       <el-table-column
@@ -81,7 +81,7 @@
       </el-pagination>
     </div>
     <el-dialog
-      :title="operateType === 'add' ? '增加产品' : '修改产品'"
+      :title="operateType === 'add' ? '增加设备' : '修改设备'"
       :visible.sync="productVisible"
       :before-close="handleDialogClose"
       width="40%">
@@ -91,16 +91,16 @@
         label-width="150px"
         size="small"
       >
-        <el-form-item label="产品名称:">
+        <el-form-item label="设备名称:">
           <el-input v-model="currentProduct.productName" style="width: 250px"></el-input>
         </el-form-item>
-        <el-form-item label="产品数量:">
+        <el-form-item label="设备数量:">
           <el-input v-model="currentProduct.deviceCount" style="width: 250px"></el-input>
         </el-form-item>
         <el-form-item label="认证方式:">
           <el-input v-model="currentProduct.authType" style="width: 250px"></el-input>
         </el-form-item>
-        <el-form-item label="产品Key:">
+        <el-form-item label="设备Key:">
           <el-input v-model="currentProduct.productKey" style="width: 250px"></el-input>
         </el-form-item>
         <el-form-item label="节点类型:">
@@ -120,11 +120,11 @@ import { listProduct, creatProduct, updateProduct, deleteProduct } from '@/api/h
 import {strLength} from '@/utils/index';
 import moment from 'moment';
   export default {
-    name: 'home',
+    name: 'device',
     data() {
       return {
         pageLoding: false,
-        // 产品数据
+        // 设备数据
         shopLists: [
           {
             authType: 'secret',
@@ -251,9 +251,9 @@ import moment from 'moment';
           pageNum: 1,
           pageSize: 5
         },
-        // 产品详情弹窗
+        // 设备详情弹窗
         productVisible: false,
-        // 弹窗展现的产品
+        // 弹窗展现的设备
         currentProduct: {
           productName: '',
           deviceCount: '',
@@ -272,7 +272,7 @@ import moment from 'moment';
       handleAddProductCate() {},
       handleUpdate() {},
       handleDelete(val) {
-        this.$confirm('是否删除产品', '提示', {
+        this.$confirm('是否删除设备', '提示', {
           confirmBUttonText: '确定',
           cancelButtonText: '取消',
           showClose: true,
@@ -280,7 +280,7 @@ import moment from 'moment';
           deleteProduct({productKey: val.productKey}).then(({code}) => {
             this.$message({
               type: 'success',
-              message: '删除产品成功',
+              message: '删除设备成功',
             })
             this.pageLoding = true;
             setTimeout(() => {this.getListProduct()}, 1000);
@@ -359,7 +359,7 @@ import moment from 'moment';
           creatProduct(this.currentProduct).then(({code}) => {
             this.$message({
               type: 'success',
-              message: '添加产品成功',
+              message: '添加设备成功',
             })
             this.pageLoding = true;
             setTimeout(() => {this.getListProduct()}, 1000);
@@ -370,7 +370,7 @@ import moment from 'moment';
           updateProduct(this.currentProduct).then(({code}) => {
             this.$message({
               type: 'success',
-              message: '修改产品成功',
+              message: '修改设备成功',
             })
             this.pageLoding = true;
             setTimeout(() => {this.getListProduct()}, 1000);

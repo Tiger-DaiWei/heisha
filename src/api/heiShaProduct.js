@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+// 产品接口
 export function listProduct(params) {
   // 查询产品
   return request({
@@ -34,4 +35,57 @@ export function creatProduct(params) {
     params: params
   })
 }
+// 设备接口
+export function deviceList(params) {
+  // 查询设备
+  return request({
+    url: '/device/list',
+    method: 'get',
+    params: params
+  })
+}
 
+export function deviceCreate(params) {
+  // 注册设备
+  return request({
+    url: '/device/create',
+    method: 'post',
+    params: params
+  })
+}
+
+export function deviceDelete(params) {
+  // 删除设备
+  return request({
+    url: '/device/delete',
+    method: 'post',
+    params: params
+  })
+}
+
+export function deviceDisable(params) {
+  // 禁用设备
+  return request({
+    url: 'device/disable',
+    method: 'post',
+    params: params
+  })
+}
+
+export function deviceEnable(params) {
+  // 启动设备
+  return request({
+    url: '/device/enable',
+    method: 'post',
+    params: params
+  })
+}
+
+export function deviceReset(params) {
+  // 重置设备
+  return request({
+    url: '/device/reset',
+    method: 'post',
+    params: params
+  })
+}
