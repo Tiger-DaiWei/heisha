@@ -360,7 +360,7 @@ export const asyncRouterMap = [
         path: 'device',
         name: 'device',
         component: () => import('@/views/ums/device'),
-        meta: {title: '设备管理'},
+        meta: {title: '设备管理', icon: 'product-brand'},
         hidden: true
       }
     ]
