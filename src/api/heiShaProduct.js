@@ -89,3 +89,31 @@ export function deviceReset(params) {
     params: params
   })
 }
+
+// 用户设备
+export function userDeviceList(params) {
+  // 查询用户设备
+  return request({
+    url: '/userDevice/list',
+    method: 'get',
+    params: params
+  })
+}
+
+export function userDeviceCreate(params) {
+  // 绑定设备
+  return request({
+    url: '/userDevice/create',
+    method: 'post',
+    params: params
+  })
+}
+
+export function userDeviceDelete(params) {
+  // 解绑设备
+  return request({
+    url: '/userDevice/delete',
+    method: 'post',
+    params: params
+  })
+}
