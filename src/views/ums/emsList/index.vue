@@ -4,12 +4,12 @@
     v-loading="pageLoding"> 
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets" style="margin-top: 5px"></i>
-      <span style="margin-top: 5px">设备管理</span>
+      <span style="margin-top: 5px">用户设备</span>
       <el-button
         class="btn-add"
-        @click="handleAddProduct"
+        @click="productVisible = true"
         size="mini">
-        注册
+        绑定设备
       </el-button>
     </el-card>
     <el-table
@@ -30,11 +30,6 @@
       <el-table-column
         prop="nickname"
         label="设备昵称"
-        align="center">
-      </el-table-column>
-      <el-table-column
-        prop="iotId"
-        label="设备标识"
         align="center">
       </el-table-column>
       <el-table-column
@@ -63,25 +58,16 @@
           <span>{{ setTimeStyle(scope.row.gmtModified) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="220" align="center">
+      <el-table-column label="操作" width="140" align="center">
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="handleReset(scope.row)">重置
-            </el-button>
-            <el-button
-              size="mini"
-              @click="handleDelete(scope.row)">删除
-            </el-button>
-            <el-button
-              size="mini"
-              @click="handleDisable(scope.row)">
-              {{ scope.row.status !== 'DISABLE' ? '禁用' : '启用'}}
+              @click="userDeviceDelete(scope.row)">解绑
             </el-button>
           </template>
         </el-table-column>
     </el-table>
-    <div class="pagination-container">
+    <!-- <div class="pagination-container">
       <el-pagination
         background
         @size-change="handleSizeChange"
@@ -92,9 +78,9 @@
         :current-page.sync="listQuery.pageNum"
         :total="total">
       </el-pagination>
-    </div>
+    </div> -->
     <el-dialog
-      :title="operateType === 'add' ? '注册设备' : '重置设备'"
+      title="绑定设备"
       :visible.sync="productVisible"
       :before-close="handleDialogClose"
       width="600px">
@@ -104,74 +90,64 @@
         label-width="180px"
         size="small"
       >
-        <!-- <el-form-item label="设备名称:">
-          <el-input v-model="currentProduct.deviceName" style="width: 250px"></el-input>
-        </el-form-item> -->
-        <el-form-item label="设备昵称:">
-          <el-input v-model="currentProduct.nickname" style="width: 250px"></el-input>
-        </el-form-item>
         <el-form-item label="隶属的产品ProductKey:">
           <el-select
-            v-model="currentProduct.productKey"
+            v-model="currentProduct.iotId"
             placeholder="隶属的产品ProductKey"
              style="width: 250px">
             <el-option
               v-for="item in productKeyList"
-              :key="item.productKey"
-              :label="item.productName"
-              :value="item.productKey">
+              :key="item.iotId"
+              :label="item.deviceName"
+              :value="item.iotId">
             </el-option>
           </el-select>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="handleDialogClose" size="small">取 消</el-button>
-        <el-button type="primary" @click="handleDialogConfirm()" size="small">确 定</el-button>
+        <el-button type="primary" @click="handleDialogConfirm" size="small">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { deviceList, deviceCreate, deviceDelete, deviceDisable, deviceEnable, deviceReset, listProduct } from '@/api/heiShaProduct';
-import {strLength} from '@/utils/index';
+import { userDeviceList, userDeviceCreate, userDeviceDelete, deviceList } from '@/api/heiShaProduct';
 import moment from 'moment';
   export default {
-    name: 'device',
+    name: 'home',
     data() {
       return {
         pageLoding: false,
-        // 设备数据
+        // 产品数据
         shopLists: [],
         total: null,
         listQuery: {
           pageNum: 1,
           pageSize: 5
         },
-        // 设备详情弹窗
+        // 绑定设备弹窗
         productVisible: false,
-        // 弹窗展现的设备
+        // 弹窗展现的产品
         currentProduct: {
-          // deviceName: '',
-          nickname: '',
-          productKey: '',
+          iotId: '',
         },
-        operateType: 'add',
-        // 产品key列表
+        // 设备产品key列表
         productKeyList: [],
       }
     },
     created(){
-      this.getListDevice();
       this.getListProduct();
+      this.getDeviceList();
     },
     methods:{
       // 获取所有产品key
-      getListProduct() {
+      getDeviceList() {
         this.productKeyList = [];
-        listProduct({
+        deviceList({
           pageNum: 1,
-          pageSize: 200,
+          pageSize: 50,
         }).then(response => {
           // const { list, pageNum, pageSize, total, totalPage } = response.data;
           const { list } = response.data
@@ -180,52 +156,23 @@ import moment from 'moment';
           this.pageLoding = false;
         });
       },
-      // 重置
-      handleReset(val) {
-        this.$confirm('是否重置设备', '提示', {
-          confirmBUttonText: '确定',
-          cancelButtonText: '取消',
-          showClose: true,
-        }).then(() => {
-          deviceReset({iotId: val.iotId}).then(() => {
-            this.$message({
-              type: 'success',
-              message: '重置设备成功',
-            })
-            this.pageLoding = true;
-            setTimeout(() => {this.getListDevice()}, 4000);
-          }); 
-        })
-      },
-      handleDelete(val) {
-        this.$confirm('是否删除设备', '提示', {
-          confirmBUttonText: '确定',
-          cancelButtonText: '取消',
-          showClose: true,
-        }).then(() => {
-          deviceDelete({iotId: val.iotId}).then(() => {
-            this.$message({
-              type: 'success',
-              message: '删除设备成功',
-            })
-            this.pageLoding = true;
-            setTimeout(() => {this.getListDevice()}, 4000);
-          }); 
-        })
-      },
       handleSizeChange(val) {
         this.listQuery.pageNum = 1;
         this.listQuery.pageSize = val;
-        this.getListDevice();
+        this.getListProduct();
       },
       handleCurrentChange(val) {
         this.listQuery.pageNum = val;
-        this.getListDevice();
+        this.getListProduct();
       },
-      getListDevice() {
+      getListProduct() {
+        // const { name } = this.$store.state.user;
+        console.log(this.$store.state);
         this.pageLoding = true;
         this.shopLists = [];
-        deviceList(this.listQuery).then(response => {
+        userDeviceList({
+          userId: 3,
+        }).then(response => {
           const { list, total } = response.data
           this.total = total;
           this.shopLists = list;
@@ -236,68 +183,144 @@ import moment from 'moment';
       setTimeStyle(val) {
         return moment(val).format('YYYY-MM-DD');
       },
-      // 添加
-      handleAddProduct() {
-        this.productVisible = true;
-        this.operateType = 'add';
-      },
+      // 绑定设备弹窗确定
       handleDialogConfirm() {
-        const {
-          nickname,
-          productKey,
-        } = this.currentProduct;
-        if (
-          !strLength(nickname)
-          || !strLength(productKey)
-        ) {
+        const { iotId } = this.currentProduct;
+        if (!iotId) {
           this.$message({
             type: 'error',
-            message: '请将信息填写完全',
-          })
+            message: '请选择绑定的设备',
+          });
           return false;
         }
-        deviceCreate(this.currentProduct).then(({code}) => {
+        userDeviceCreate({userId: 3, iotId }).then(() => {
           this.$message({
             type: 'success',
-            message: '注册设备成功',
+            message: '绑定设备成功',
           })
-          this.pageLoding = true;
-          setTimeout(() => {this.getListDevice()}, 2000);
-          }).finally(() => {
           this.productVisible = false;
-        });
+          this.pageLoding = true;
+          setTimeout(() => {this.getListProduct()}, 4000);
+        }); 
       },
+      // 弹窗关闭
       handleDialogClose() {
         this.productVisible = false;
         this.currentProduct = {
-          nickname: '',
-          productKey: '',
+          iotId: '',
         };
       },
-      // 启用禁用设备
-      handleDisable(val) {
-        const str = val.status !== 'DISABLE' ? '禁用设备' : '启用设备';
-        this.$confirm(str, '提示', {
+      // 解绑设备
+      userDeviceDelete(val) {
+        this.$confirm('是否解除设备', '提示', {
           confirmBUttonText: '确定',
           cancelButtonText: '取消',
           showClose: true,
         }).then(() => {
-          (
-            val.status !== 'DISABLE'
-            ? deviceDisable({iotId: val.iotId})
-            : deviceEnable({iotId: val.iotId})).then(({code}) => {
+          userDeviceDelete({userDeviceId : val.userDeviceId }).then(() => {
             this.$message({
               type: 'success',
-              message: str + '成功',
+              message: '解除设备成功',
             })
+            this.productVisible = false;
             this.pageLoding = true;
-            setTimeout(() => {this.getListDevice()}, 4000);
+            setTimeout(() => {this.getListProduct()}, 4000);
           }); 
         })
-      }
+      },
     }
   }
 </script>
 
 <style scoped>
+  .app-container {
+    margin: 30px;
+  }
+
+  .total-layout {
+    margin-top: 20px;
+  }
+
+  .total-frame {
+    border: 1px solid #DCDFE6;
+    padding: 20px;
+    height: 100px;
+  }
+
+  .total-icon {
+    color: #409EFF;
+    width: 60px;
+    height: 60px;
+  }
+
+  .total-title {
+    position: relative;
+    font-size: 16px;
+    color: #909399;
+    left: 70px;
+    top: -50px;
+  }
+
+  .total-value {
+    position: relative;
+    font-size: 18px;
+    color: #606266;
+    left: 70px;
+    top: -40px;
+  }
+
+  .un-handle-layout {
+    margin-top: 20px;
+    border: 1px solid #DCDFE6;
+  }
+
+  .layout-title {
+    color: #606266;
+    padding: 15px 20px;
+    background: #F2F6FC;
+    font-weight: bold;
+  }
+
+  .un-handle-content {
+    padding: 20px 40px;
+  }
+
+  .un-handle-item {
+    border-bottom: 1px solid #EBEEF5;
+    padding: 10px;
+  }
+
+  .overview-layout {
+    margin-top: 20px;
+  }
+
+  .overview-item-value {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .overview-item-title {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .out-border {
+    border: 1px solid #DCDFE6;
+  }
+
+  .statistics-layout {
+    margin-top: 20px;
+    border: 1px solid #DCDFE6;
+  }
+  .mine-layout {
+    position: absolute;
+    right: 140px;
+    top: 107px;
+    width: 250px;
+    height: 235px;
+  }
+  .address-content{
+    padding: 20px;
+    font-size: 18px
+  }
 </style>

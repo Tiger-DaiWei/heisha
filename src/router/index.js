@@ -364,6 +364,13 @@ export const asyncRouterMap = [
         component: () => import('@/views/ums/device'),
         meta: {title: '设备管理', icon: 'product-brand'},
         hidden: true
+      },
+      {
+        path: 'emsList',
+        name: 'emsList',
+        component: () => import('@/views/ums/emsList/index'),
+        meta: {title: '用户设备', icon: 'ems-list'},
+        hidden: true
       }
     ]
   },
