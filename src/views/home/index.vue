@@ -275,7 +275,6 @@ import moment from 'moment';
 
 <style scoped>
   .app-container {
-    margin: 30px;
   }
 
   .total-layout {
