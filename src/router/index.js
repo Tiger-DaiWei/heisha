@@ -25,13 +25,22 @@ export const constantRouterMap = [
     path: '',
     component: Layout,
     redirect: '/home',
-    children: [{
-      path: 'home',
-      name: 'home',
-      component: () => import('@/views/home/index'),
-      meta: {title: '首页', icon: 'home'}
-    }]
-  }
+    children: [
+      {
+        path: 'home',
+        name: 'home',
+        component: () => import('@/views/home/index'),
+        meta: {title: '首页', icon: 'home'}
+      },
+      {
+        path: 'details',
+        name: 'details',
+        component: () => import('@/views/home/details'),
+        meta: {title: '产品详情'},
+        hidden: true,
+      }
+    ]
+  },
 ]
 
 export const asyncRouterMap = [
