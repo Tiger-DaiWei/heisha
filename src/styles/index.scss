@@ -19,6 +19,8 @@ html {
 *:before,
 *:after {
   box-sizing: inherit;
+  padding: 0;
+  margin: 0;
 }
 
 div:focus{
@@ -47,6 +49,10 @@ a:hover {
     clear: both;
     height: 0;
   }
+}
+
+ul, ol {
+  list-style: none;
 }
 
 //main-container全局样式

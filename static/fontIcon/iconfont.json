@@ -1,0 +1,51 @@
+{
+  "id": "2605599",
+  "name": "heisha",
+  "font_family": "iconfont",
+  "css_prefix_text": "hs-",
+  "description": "heisha项目svg管理",
+  "glyphs": [
+    {
+      "icon_id": "872706",
+      "name": "产品名称",
+      "font_class": "chanpinmingcheng",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "6423318",
+      "name": "创建时间",
+      "font_class": "chuangjianshijian",
+      "unicode": "e66e",
+      "unicode_decimal": 58990
+    },
+    {
+      "icon_id": "11286357",
+      "name": "key",
+      "font_class": "key",
+      "unicode": "e91b",
+      "unicode_decimal": 59675
+    },
+    {
+      "icon_id": "16815513",
+      "name": "设备数量",
+      "font_class": "shebeishuliang",
+      "unicode": "e67e",
+      "unicode_decimal": 59006
+    },
+    {
+      "icon_id": "20598780",
+      "name": "认证方式",
+      "font_class": "renzhengfangshi",
+      "unicode": "e6bc",
+      "unicode_decimal": 59068
+    },
+    {
+      "icon_id": "20675411",
+      "name": "节点类型",
+      "font_class": "gongshi",
+      "unicode": "e729",
+      "unicode_decimal": 59177
+    }
+  ]
+}
