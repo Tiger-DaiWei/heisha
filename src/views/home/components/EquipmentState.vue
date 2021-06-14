@@ -192,45 +192,45 @@ export default {
     }
     .position-left {
       position: absolute;
-      left: 30px;
-      top: 120px;
+      left: 20px;
+      top: 320px;
     }
     .line1 {
-      width: calc(50% - 400px);
-      height: 286px;
+      width: calc(50% - 390px);
+      height: 86px;
       border-bottom: 2px dashed black;
       position: absolute;
-      left: 230px;
-      top: 371px;
+      left: 220px;
+      top: 571px;
       border-radius: 0 0 0 100%;
     }
     .position-top {
       position: absolute;
       left: calc(50% - 160px);
-      top: 30px;
+      top: 4px;
       &.some-one {
         border-color: rgb(17, 245, 226);
       }
     }
     .line2 {
       width: 80px;
-      height: 306px;
+      height: 332px;
       border-right: 2px solid rgb(241, 245, 17);
       position: absolute;
-      left: calc(50% - 40px);
-      top: 304px;
+      left: calc(50% - 60px);
+      top: 278px;
       border-radius: 0 0 100% 0;
     }
     .position-right {
       position: absolute;
-      right: 30px;
+      right: 10px;
       top: 320px;
       &.some-one {
         border-color: rgb(17, 245, 226);
       }
     }
     .line3 {
-      width: calc(50% - 420px);
+      width: calc(50% - 400px);
       height: 80px;
       border-bottom: 2px solid rgb(17, 245, 226);
       position: absolute;
@@ -240,19 +240,19 @@ export default {
     }
     .position-bottom-left {
       position: absolute;
-      left: 30px;
-      bottom: 160px;
+      left: 10px;
+      bottom: 280px;
       &.some-one {
         border-color: red;
       }
     }
     .line4 {
-      width: calc(50% - 510px);
-      height: 340px;
+      width: calc(50% - 430px);
+      height: 240px;
       border-right: 2px solid red;
       position: absolute;
-      left: 430px;
-      bottom: 270px;
+      left: 406px;
+      bottom: 370px;
       border-radius: 0 0 100% 0;      
     }
     .position-bottom-center {
@@ -271,18 +271,18 @@ export default {
     }
     .position-bottom-right {
       position: absolute;
-      right: 30px;
-      bottom: 310px;
+      right: 10px;
+      bottom: 260px;
       &.some-one {
         border-color: rgb(17, 245, 226);
       }
     }
     .line6 {
-      width: calc(50% - 590px);
+      width: calc(50% - 440px);
       height: 210px;
       border-bottom: 2px solid rgb(17, 245, 226);
       position: absolute;
-      left: calc(50% + 160px);
+      left: calc(50% + 30px);
       bottom: 400px;
       border-radius: 0 0 0 100%;      
     }
