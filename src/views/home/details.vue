@@ -1,6 +1,6 @@
 <template>
   <div class="product-details">
-    <img
+    <!-- <img
       :src="imgUrl"
       class="is-image"
     />
@@ -39,18 +39,27 @@
         <p>{{ setTimeStyle(productDetails.gmtCreate) }}</p>
         </el-col>
       </el-row>
-    </div>
+    </div> -->
+  <el-tabs :tab-position="tabPosition" class="meau-style">
+    <el-tab-pane label="设备状态"><TreeTable /></el-tab-pane>
+    <el-tab-pane label="设置操作"><TreeTable /></el-tab-pane>
+  </el-tabs>
   </div>
 </template>
 
 <script>
 import product1 from '@/assets/images/product/product1.jpeg';
 import moment from 'moment';
+import TreeTable from './components/TreeTable.vue';
 export default {
   name: 'productDetails',
+  components: {
+    TreeTable,
+  },
   data() {
     return {
       imgUrl: product1,
+      tabPosition: 'left'
     };
   },
   computed: {
@@ -98,6 +107,9 @@ export default {
         }
       }
     }
+  }
+  .meau-style {
+    height: 100%;
   }
 }
 </style>
