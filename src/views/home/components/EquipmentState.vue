@@ -1,5 +1,5 @@
 <template>
-  <div class="tree-table">
+  <div class="equipment-state">
     <div class="list">
       <div class="some-one position-left">
         <h5>Production Bar Module</h5>
@@ -145,7 +145,7 @@
         </el-table-column>
         <el-table-column
           prop="date"
-          label="Descript">
+          label="Description">
         </el-table-column>
       </el-table>
     </div>
@@ -154,7 +154,7 @@
 
 <script>
 export default {
-  name: 'TreeTable',
+  name: 'EquipmentState',
   data() {
     return {
       tableData: [{
@@ -176,12 +176,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.tree-table {
+.equipment-state {
   height: 100%;
   .list {
     height: 1300px;
     position: relative;
-    border: 1px solid #ccc;
     .some-one {
       width: 400px;
       border: 2px solid #000;

@@ -1,65 +1,27 @@
 <template>
   <div class="product-details">
-    <!-- <img
-      :src="imgUrl"
-      class="is-image"
-    />
-    <div class="reference">
-      <el-row>
-        <el-col :span="8">
-        <i class="iconfont hs-chanpinmingcheng" />
-        <p>产品名称</p>
-        <p>{{ productDetails.productName }}</p>
-        </el-col>
-        <el-col :span="8">
-        <i class="iconfont hs-shebeishuliang" />
-        <p>设备数量</p>
-        <p>{{ productDetails.deviceCount }}</p>
-        </el-col>
-        <el-col :span="8">
-        <i class="iconfont hs-renzhengfangshi" />
-        <p>认证方式</p>
-        <p>{{ productDetails.authType }}</p>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-        <i class="iconfont hs-key" />
-        <p>产品Key</p>
-        <p>{{ productDetails.productKey }}</p>
-        </el-col>
-        <el-col :span="8">
-        <i class="iconfont hs-gongshi" />
-        <p>节点类型</p>
-        <p>{{ productDetails.nodeType }}</p>
-        </el-col>
-        <el-col :span="8">
-        <i class="iconfont hs-chuangjianshijian" />
-        <p>创建时间</p>
-        <p>{{ setTimeStyle(productDetails.gmtCreate) }}</p>
-        </el-col>
-      </el-row>
-    </div> -->
-  <el-tabs :tab-position="tabPosition" class="meau-style">
-    <el-tab-pane label="设备状态"><TreeTable /></el-tab-pane>
-    <el-tab-pane label="设置操作"><TreeTable /></el-tab-pane>
-  </el-tabs>
+    <el-tabs :tab-position="tabPosition" class="meau-style">
+      <el-tab-pane label="设备状态"><EquipmentState /></el-tab-pane>
+      <el-tab-pane label="设备操作"><EquipmentOperation /></el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
 <script>
 import product1 from '@/assets/images/product/product1.jpeg';
 import moment from 'moment';
-import TreeTable from './components/TreeTable.vue';
+import EquipmentState from './components/EquipmentState';
+import EquipmentOperation from './components/EquipmentOperation';
 export default {
   name: 'productDetails',
   components: {
-    TreeTable,
+    EquipmentState,
+    EquipmentOperation,
   },
   data() {
     return {
       imgUrl: product1,
-      tabPosition: 'left'
+      tabPosition: 'top'
     };
   },
   computed: {
