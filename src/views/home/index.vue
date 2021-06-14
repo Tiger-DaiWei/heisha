@@ -47,127 +47,7 @@ import moment from 'moment';
       return {
         pageLoding: false,
         // 产品数据
-        shopLists: [
-          {
-            authType: 'secret',
-            deviceCount: 0,
-            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
-            nodeType: 0,
-            productKey: 'a1v5CSFONku',
-            productName: ' product_test_bill',
-          },
-          {
-             authType: 'secret',
-             dataFormat: 0,
-             deviceCount: 3,
-             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
-             nodeType: 0,
-             productKey: 'a1CWEsUjqsI',
-             productName: 'DNEST',
-          },
-          {
-            authType: 'secret',
-            deviceCount: 0,
-            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
-            nodeType: 0,
-            productKey: 'a1v5CSFONku',
-            productName: ' product_test_bill',
-          },
-          {
-             authType: 'secret',
-             dataFormat: 0,
-             deviceCount: 3,
-             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
-             nodeType: 0,
-             productKey: 'a1CWEsUjqsI',
-             productName: 'DNEST',
-          },
-          {
-            authType: 'secret',
-            deviceCount: 0,
-            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
-            nodeType: 0,
-            productKey: 'a1v5CSFONku',
-            productName: ' product_test_bill',
-          },
-          {
-             authType: 'secret',
-             dataFormat: 0,
-             deviceCount: 3,
-             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
-             nodeType: 0,
-             productKey: 'a1CWEsUjqsI',
-             productName: 'DNEST',
-          },
-          {
-            authType: 'secret',
-            deviceCount: 0,
-            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
-            nodeType: 0,
-            productKey: 'a1v5CSFONku',
-            productName: ' product_test_bill',
-          },
-          {
-             authType: 'secret',
-             dataFormat: 0,
-             deviceCount: 3,
-             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
-             nodeType: 0,
-             productKey: 'a1CWEsUjqsI',
-             productName: 'DNEST',
-          },
-          {
-            authType: 'secret',
-            deviceCount: 0,
-            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
-            nodeType: 0,
-            productKey: 'a1v5CSFONku',
-            productName: ' product_test_bill',
-          },
-          {
-             authType: 'secret',
-             dataFormat: 0,
-             deviceCount: 3,
-             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
-             nodeType: 0,
-             productKey: 'a1CWEsUjqsI',
-             productName: 'DNEST',
-          },
-          {
-            authType: 'secret',
-            deviceCount: 0,
-            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
-            nodeType: 0,
-            productKey: 'a1v5CSFONku',
-            productName: ' product_test_bill',
-          },
-          {
-             authType: 'secret',
-             dataFormat: 0,
-             deviceCount: 3,
-             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
-             nodeType: 0,
-             productKey: 'a1CWEsUjqsI',
-             productName: 'DNEST',
-          },
-          {
-            authType: 'secret',
-            deviceCount: 0,
-            gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
-            nodeType: 0,
-            productKey: 'a1v5CSFONku',
-            productName: ' product_test_bill',
-          },
-          {
-             authType: 'secret',
-             dataFormat: 0,
-             deviceCount: 3,
-             gmtCreate: moment('2021-05-31 10:59:37').format('YYYY-MM-DD'),
-             nodeType: 0,
-             productKey: 'a1CWEsUjqsI',
-             productName: 'DNEST',
-          }
-        ],
+        shopLists: [],
         total: null,
         listQuery: {
           pageNum: 1,
@@ -235,34 +115,36 @@ import moment from 'moment';
     flex-wrap: wrap; 
     li {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       flex-wrap: wrap;
-      height: 220px;
+      justify-content: center;
+      align-items: center;
+      height: 430px;
       border: 2px solid #ccc;
-      border-radius: 2px;
+      border-radius: 6px;
       margin: 10px;
       padding: 10px;
+      position: relative;
+      width: 400px;
+      i {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+      }
       img {
         height: 200px;
         width: 300px;
         cursor: pointer;
       }
       div {
-        width: 270px;
-        position: relative;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        i {
-          position: absolute;
-          top: 0;
-          right: 0;
-        }
         p {
-          line-height: 24px;
+          line-height: 26px;
         }
         .el-button {
-          margin-top: 10px;
+          margin-top: 14px;
         }
       }
       &.status3 {

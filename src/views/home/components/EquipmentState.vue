@@ -16,7 +16,8 @@
             label="Locked">
           </el-table-column>
           <el-table-column
-            prop="status">
+            prop="status"
+            width="60px">
           </el-table-column>
         </el-table>
       </div>
@@ -36,7 +37,8 @@
             label="Power Off Charge">
           </el-table-column>
           <el-table-column
-            prop="status">
+            prop="status"
+            width="60px">
           </el-table-column>
         </el-table>
       </div>
@@ -56,7 +58,8 @@
             label="Close">
           </el-table-column>
           <el-table-column
-            prop="status">
+            prop="status"
+            width="60px">
           </el-table-column>
         </el-table>
       </div>
@@ -76,7 +79,8 @@
             label="Fault">
           </el-table-column>
           <el-table-column
-            prop="status">
+            prop="status"
+            width="60px">
           </el-table-column>
         </el-table>
       </div>
@@ -96,6 +100,10 @@
             prop="name"
             label="姓名">
           </el-table-column>
+          <el-table-column
+            prop="status"
+            width="60px">
+          </el-table-column>
         </el-table>
       </div>
       <div class="line5" />
@@ -113,6 +121,10 @@
           <el-table-column
             prop="name"
             label="姓名">
+          </el-table-column>
+          <el-table-column
+            prop="status"
+            width="60px">
           </el-table-column>
         </el-table>
       </div>
@@ -186,6 +198,7 @@ export default {
       border: 2px solid #000;
       border-radius: 1px;
       padding: 8px;
+      height: 253px;
       h5 {
         line-height: 40px;
       }
@@ -214,11 +227,11 @@ export default {
     }
     .line2 {
       width: 80px;
-      height: 332px;
+      height: 354px;
       border-right: 2px solid rgb(241, 245, 17);
       position: absolute;
       left: calc(50% - 60px);
-      top: 278px;
+      top: 256px;
       border-radius: 0 0 100% 0;
     }
     .position-right {
@@ -259,6 +272,7 @@ export default {
       position: absolute;
       left: calc(50% - 230px);
       bottom: 40px;
+      height: 205px;
     }
     .line5 {
       width: 80px;
@@ -273,6 +287,7 @@ export default {
       position: absolute;
       right: 10px;
       bottom: 260px;
+      height: 205px;
       &.some-one {
         border-color: rgb(17, 245, 226);
       }

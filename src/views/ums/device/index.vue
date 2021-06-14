@@ -63,7 +63,7 @@
           <span>{{ setTimeStyle(scope.row.gmtModified) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="220" align="center">
+      <el-table-column label="操作" width="180" align="center">
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -72,6 +72,9 @@
             <el-button
               size="mini"
               @click="handleDelete(scope.row)">删除
+            </el-button>
+            <el-button
+              size="mini">修改
             </el-button>
             <el-button
               size="mini"
@@ -299,5 +302,17 @@ import moment from 'moment';
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.app-container {
+  .el-table__row {
+    .cell {
+      .el-button {
+        margin-bottom: 10px;
+      }
+      .el-button:nth-child(odd) {
+        margin-left: 0;
+      }
+    }
+  }
+}
 </style>
