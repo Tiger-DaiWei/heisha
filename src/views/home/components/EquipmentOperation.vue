@@ -211,7 +211,18 @@ export default {
         productKey,
         identifier,
         parameters: JSON.parse(value),
-      }).then(response => {
+      }).then(({ code, message }) => {
+        if (code === 200) {
+          this.$message({
+            type: 'success',
+            message: message || '操作成功',
+          })
+        } else {
+          this.$message({
+            type: 'error',
+            message: message || '操作失败',
+          })
+        }
       }).finally(() => {
         this.pageLoding = false;
       });
