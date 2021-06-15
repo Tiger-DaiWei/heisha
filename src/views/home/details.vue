@@ -2,7 +2,11 @@
   <div class="product-details">
     <el-tabs :tab-position="tabPosition" class="meau-style">
       <el-tab-pane label="设备状态"><EquipmentState /></el-tab-pane>
-      <el-tab-pane label="设备操作"><EquipmentOperation /></el-tab-pane>
+      <el-tab-pane label="设备操作">
+        <EquipmentOperation
+          :deviceDetails="deviceDetails"
+          />
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -13,7 +17,7 @@ import moment from 'moment';
 import EquipmentState from './components/EquipmentState';
 import EquipmentOperation from './components/EquipmentOperation';
 export default {
-  name: 'productDetails',
+  name: 'deviceDetails',
   components: {
     EquipmentState,
     EquipmentOperation,
@@ -25,8 +29,8 @@ export default {
     };
   },
   computed: {
-    productDetails() {
-      return JSON.parse(localStorage.getItem('productDetails'));
+    deviceDetails() {
+      return JSON.parse(localStorage.getItem('deviceDetails'));
     },
   },
   mounted() {},

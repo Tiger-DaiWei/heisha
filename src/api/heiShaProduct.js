@@ -117,3 +117,12 @@ export function userDeviceDelete(params) {
     params: params
   })
 }
+
+export function invokeServiceDevice(params) {
+  // 设备服务调用
+  return request({
+    url: '/device/invokeServiceDevice',
+    method: 'post',
+    params: params
+  })
+}

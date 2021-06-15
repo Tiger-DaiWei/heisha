@@ -99,9 +99,9 @@ import moment from 'moment';
         this.currentProduct = JSON.parse(JSON.stringify(str));
       },
       goDetails(val) {
-        localStorage.removeItem('productDetails');
-        localStorage.setItem('productDetails', JSON.stringify(val));
-        this.$router.push('/productDetails');
+        localStorage.removeItem('deviceDetails');
+        localStorage.setItem('deviceDetails', JSON.stringify(val));
+        this.$router.push('/deviceDetails');
       },
     }
   }

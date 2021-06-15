@@ -33,8 +33,8 @@ export const constantRouterMap = [
         meta: {title: '首页', icon: 'home'}
       },
       {
-        path: 'productDetails',
-        name: 'productDetails',
+        path: 'deviceDetails',
+        name: 'deviceDetails',
         component: () => import('@/views/home/details'),
         meta: {title: '设备详情'},
         hidden: true,
