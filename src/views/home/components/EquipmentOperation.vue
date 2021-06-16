@@ -238,7 +238,7 @@ export default {
     line-height: 50px;
     font-size: 18px;
     padding: 0 30px;
-    background-color: rgb(11, 247, 235);
+    background-color: rgb(5, 163, 155);
     color: #fff;
   }
   > ul {
@@ -260,7 +260,7 @@ export default {
         background-color: #ccc;
         cursor: pointer;
         &.status {
-          background: rgb(11, 247, 235);
+          background: rgb(5, 163, 155);
         }
       }
     }
