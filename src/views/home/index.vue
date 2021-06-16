@@ -13,11 +13,10 @@
           @click="goDetails(item)"
           />
         <div>
-          <i class="el-icon-warning" />
-          <p>设备名称：{{item.deviceName}}</p>
-          <p>设备昵称：{{item.nickname}}</p>
-          <p>设备标识：{{item.iotId}}</p>
-          <p>设备状态：{{item.status}}</p>
+          <p>名称：{{item.deviceName}}</p>
+          <p>昵称：{{item.nickname}}</p>
+          <p>标识：{{item.iotId}}</p>
+          <p>状态：{{item.status}}</p>
           <el-button @click="goDetails(item)">查看详情</el-button>
         </div>
       </li>
@@ -39,7 +38,7 @@
 
 <script>
 import { deviceList } from '@/api/heiShaProduct';
-import product1 from '@/assets/images/product/product1.jpeg';
+import product1 from '@/assets/images/device/device1.png';
 import moment from 'moment';
   export default {
     name: 'home',
@@ -119,18 +118,14 @@ import moment from 'moment';
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      height: 430px;
-      border: 2px solid #ccc;
-      border-radius: 6px;
+      height: 410px;
+      border-radius: 2px;
       margin: 10px;
-      padding: 10px;
+      padding: 0 10px 10px;
       position: relative;
       width: 400px;
-      i {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-      }
+      color: #fff;
+      border: 1px solid transparent;
       img {
         height: 200px;
         width: 300px;
@@ -147,46 +142,44 @@ import moment from 'moment';
           margin-top: 14px;
         }
       }
+      // 显示就四种，1、不在线，灰色；2、在线、正常显示；3、警告，黄色闪烁；4、故障，红色闪烁
       &.status3 {
-        border-color: #ccc;
-        animation: fade 3000ms infinite;
-        i {
-          color: #ccc;
-        }
+        background: #ccc;
       }
       &.status2 {
-        border-color: #000;
-        animation: fade 3000ms infinite;
-        i {
-          color: #000;
-        }
+        background: #fff;
+        color: #000;
+        border-color: #ccc;
       }
       &.status1 {
-        border-color: yellow;
-        animation: fade 3000ms infinite;
-        i {
-          color: yellow;
-        }
+        animation: fade1 500ms infinite;
       }
       &.status0 {
-        border-color: red;
-        animation: fade 3000ms infinite;
-        i {
-          color: red;
-        }
+        animation: fade 500ms infinite;
       }
     }
   }
 }
 @keyframes fade {
-  from { opacity: 1.0; }
-  50% { opacity: 0.4; }
-  to { opacity: 1.0; }
+  from { background: red;}
+  50% { background: #ccc;}
+  to { background: red;}
 }
  
 @-webkit-keyframes fade {
-  from { opacity: 1.0; }
-  50% { opacity: 0.4; }
-  to { opacity: 1.0; }
+  from { background: red;}
+  50% { background: #ccc;}
+  to { background: red;}
+}
+@keyframes fade1 {
+  from { background: yellow;}
+  50% { background: #ccc;}
+  to { background: yellow;}
+}
+ 
+@-webkit-keyframes fade1 {
+  from { background: yellow;}
+  50% { background: #ccc;}
+  to { background: yellow;}
 }
 </style>
