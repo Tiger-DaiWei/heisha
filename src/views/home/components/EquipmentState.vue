@@ -130,8 +130,8 @@
       </div>
       <div class="line6" />
       <div class="main-title">
-        DeviceName:HEISHADNEST2021060001<br />
-        State:Online&nbsp;&nbsp;WorkingMode:Normal<br />
+        DeviceName:{{ deviceDetails.deviceName }}<br />
+        State:{{ deviceDetails.status }}&nbsp;&nbsp;WorkingMode:Normal<br />
       </div>
     </div>
     <div class="log">
@@ -167,6 +167,12 @@
 <script>
 export default {
   name: 'EquipmentState',
+  props: {
+    deviceDetails: {
+      type: Object,
+      default: () => {},
+    },
+  },
   data() {
     return {
       tableData: [{

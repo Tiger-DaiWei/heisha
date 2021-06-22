@@ -1,7 +1,11 @@
 <template>
   <div class="product-details">
     <el-tabs :tab-position="tabPosition" class="meau-style">
-      <el-tab-pane label="设备状态"><EquipmentState /></el-tab-pane>
+      <el-tab-pane label="设备状态">
+        <EquipmentState
+          :deviceDetails="deviceDetails"
+          />
+      </el-tab-pane>
       <el-tab-pane label="设备操作">
         <EquipmentOperation
           :deviceDetails="deviceDetails"
