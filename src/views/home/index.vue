@@ -6,7 +6,7 @@
       <li
         v-for="(item, index) in shopLists"
         :key="index"
-        :class="['status' + index]"
+        :class="[item.status]"
       >
         <img
           :src="theDefaultImage"
@@ -142,42 +142,46 @@ import moment from 'moment';
           margin-top: 14px;
         }
       }
-      // 显示就四种，1、不在线，灰色；2、在线、正常显示；3、警告，黄色闪烁；4、故障，红色闪烁
-      &.status3 {
+      // 显示就四种
+      // 1、灰色(OFFLINE不在线, DISABLE设备已禁用, UNACTIVE设备未激活)
+      // 2、在线、正常显示(ONLINE)
+      // 3、警告，黄色闪烁
+      // 4、故障，红色闪烁
+      &.OFFLINE, &.DISABLE, &.UNACTIVE {
         background: #ccc;
       }
-      &.status2 {
+      &.ONLINE {
         background: #fff;
         color: #000;
         border-color: #ccc;
       }
       &.status1 {
-        animation: fade1 500ms infinite;
+        animation: fadeRed 500ms infinite;
       }
       &.status0 {
-        animation: fade 500ms infinite;
+        animation: fadeYellow 500ms infinite;
       }
     }
   }
 }
-@keyframes fade {
+@keyframes fadeRed {
   from { background: red;}
   50% { background: #ccc;}
   to { background: red;}
 }
  
-@-webkit-keyframes fade {
+@-webkit-keyframes fadeRed {
   from { background: red;}
   50% { background: #ccc;}
   to { background: red;}
 }
-@keyframes fade1 {
+@keyframes fadeYellow {
   from { background: yellow;}
   50% { background: #ccc;}
   to { background: yellow;}
 }
  
-@-webkit-keyframes fade1 {
+@-webkit-keyframes fadeYellow {
   from { background: yellow;}
   50% { background: #ccc;}
   to { background: yellow;}
