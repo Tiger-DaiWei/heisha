@@ -4,7 +4,8 @@
     v-loading="pageLoding"> 
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets" style="margin-top: 5px"></i>
-      <span style="margin-top: 5px">产品列表</span>      <el-button
+      <span style="margin-top: 5px">产品列表</span>
+      <el-button
         class="btn-add"
         @click="handleAddProduct()"
         size="mini">
