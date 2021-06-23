@@ -134,33 +134,6 @@
         State:{{ deviceDetails.status }}&nbsp;&nbsp;WorkingMode:Normal<br />
       </div>
     </div>
-    <div class="log">
-      <h5>System Log</h5>
-      <el-table
-        :data="tableData"
-        border
-        style="width: 100%">
-        <el-table-column
-          type="index"
-          label="Index"
-          width="220">
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          label="Time"
-          width="300">
-        </el-table-column>
-        <el-table-column
-          prop="Type"
-          label="Type"
-          width="300">
-        </el-table-column>
-        <el-table-column
-          prop="date"
-          label="Description">
-        </el-table-column>
-      </el-table>
-    </div>
   </div>
 </template>
 
@@ -320,13 +293,6 @@ export default {
       right: 0;
       bottom: 0;
       margin: auto;
-    }
-  }
-  .log {
-    margin-top: 40px;
-    h5 {
-       line-height: 40px;
-       font-size: 20px;
     }
   }
 }

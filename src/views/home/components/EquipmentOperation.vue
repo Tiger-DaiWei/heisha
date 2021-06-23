@@ -82,7 +82,7 @@
       </li>
     </ul>
     <ul>
-      <li><span>Nvidia Power State::</span>Power On</li>
+      <li><span>Nvidia Power State:</span>Power On</li>
       <li>
         <div
           v-for="item in nvidiaPowerValue"
@@ -103,36 +103,11 @@
         </div>
       </li>
     </ul>
-    <h4>System Log</h4>
-    <el-table
-      :data="tableData"
-      border
-      style="width: 100%; margin-top: 20px;">
-      <el-table-column
-        type="index"
-        label="Index"
-        width="220">
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        label="Time"
-        width="300">
-      </el-table-column>
-      <el-table-column
-        prop="Type"
-        label="Type"
-        width="300">
-      </el-table-column>
-      <el-table-column
-        prop="date"
-        label="Description">
-      </el-table-column>
-    </el-table>
   </div>
 </template>
 
 <script>
-import { invokeServiceDevice } from '@/api/heiShaProduct';
+import { getDeviceMessage, invokeServiceDevice } from '@/api/heiShaProduct';
 export default {
   name: 'EquipmentOperation',
   props: {
@@ -143,19 +118,6 @@ export default {
   },
   data() {
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }],
       pageLoding: false,
       systemStateValue: [
         { label: 'Test Mode', value: '{ "mode": 1 }', identifier: 'set_working_mode' },
@@ -193,7 +155,9 @@ export default {
       ],
     };
   },
-  mounted() {},
+  mounted() {
+    this.getDeviceMessageInterface();
+  },
   methods: {
     /**
      * @description 设备服务调用
@@ -221,6 +185,28 @@ export default {
           this.$message({
             type: 'error',
             message: message || '操作失败',
+          })
+        }
+      }).finally(() => {
+        this.pageLoding = false;
+      });
+    },
+    /**
+     * @description 设备状态接口数据获取
+     * @param deviceName 设备名称
+     * @param productKey 设备对应产品的key
+    */
+    getDeviceMessageInterface() {
+      this.pageLoding = true;
+      const { deviceName, productKey } = this.deviceDetails;
+      getDeviceMessage({
+        deviceName,
+        productKey,
+      }).then(({ code, message }) => {
+        if (code !== 200) {
+          this.$message({
+            type: 'error',
+            message: message || '获取设备状态失败',
           })
         }
       }).finally(() => {

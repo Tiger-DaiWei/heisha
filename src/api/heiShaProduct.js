@@ -126,3 +126,22 @@ export function invokeServiceDevice(params) {
     params: params
   })
 }
+
+// 设备事件管理/eventMessage/getDeviceMessage
+export function getDeviceMessage(params) {
+  // 获取设备状态及属性
+  return request({
+    url: '/eventMessage/getDeviceMessage',
+    method: 'post',
+    params: params
+  })
+}
+
+export function getSysLogList(params) {
+  // 获取系统日志
+  return request({
+    url: '/eventMessage/getSysLogList',
+    method: 'post',
+    params: params
+  })
+}
