@@ -278,7 +278,7 @@ export default {
       position: absolute;
       left: calc(50% + 30px);
       bottom: 400px;
-      border-radius: 0 0 0 100%;      
+      border-radius: 0 0 0 100%;
     }
     .main-title {
       border: 1px solid #000;
