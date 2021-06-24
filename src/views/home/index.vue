@@ -6,7 +6,7 @@
       <li
         v-for="(item, index) in shopLists"
         :key="index"
-        :class="[item.status]"
+        :class="[item.status, item.deviceRunStatus]"
       >
         <img
           :src="theDefaultImage"
@@ -154,12 +154,13 @@ import moment from 'moment';
         background: #fff;
         color: #000;
         border-color: #ccc;
-      }
-      &.status1 {
-        animation: fadeRed 500ms infinite;
-      }
-      &.status0 {
-        animation: fadeYellow 500ms infinite;
+        // normal-正常 alert-报警 error-故障
+        &.error {
+          animation: fadeRed 500ms infinite;
+        }
+        &.alert {
+          animation: fadeYellow 500ms infinite;
+        }
       }
     }
   }
