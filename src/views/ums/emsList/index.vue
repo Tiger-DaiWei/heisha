@@ -90,10 +90,10 @@
         label-width="180px"
         size="small"
       >
-        <el-form-item label="隶属的产品ProductKey:">
+        <el-form-item label="设备标识">
           <el-select
             v-model="currentProduct.iotId"
-            placeholder="隶属的产品ProductKey"
+            placeholder="设备标识"
              style="width: 250px">
             <el-option
               v-for="item in productKeyList"
@@ -166,8 +166,6 @@ import moment from 'moment';
         this.getListProduct();
       },
       getListProduct() {
-        // const { name } = this.$store.state.user;
-        console.log(this.$store.state);
         this.pageLoding = true;
         this.shopLists = [];
         userDeviceList({

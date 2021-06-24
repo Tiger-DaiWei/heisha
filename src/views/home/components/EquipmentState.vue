@@ -131,7 +131,7 @@
       <div class="line6" />
       <div class="main-title">
         DeviceName:{{ deviceDetails.deviceName }}<br />
-        State:{{ deviceDetails.status }}&nbsp;&nbsp;WorkingMode:Normal<br />
+        State:{{ deviceDetails.status }}&nbsp;&nbsp;WorkingMode: {{ deviceDetails.deviceRunStatus }}<br />
       </div>
     </div>
   </div>
