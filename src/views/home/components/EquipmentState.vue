@@ -480,6 +480,11 @@ export default {
       bottom: 0;
       margin: auto;
     }
+    .el-table {
+      /deep/ .el-table__body {
+        cursor: pointer;
+      }
+    }
   }
 }
 </style>

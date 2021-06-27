@@ -158,6 +158,7 @@ export default {
   }
   .log {
     margin-top: 40px;
+    min-height: 360px;
     h5 {
        line-height: 40px;
        font-size: 20px;
