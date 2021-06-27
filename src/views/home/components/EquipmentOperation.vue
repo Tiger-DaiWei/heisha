@@ -224,7 +224,7 @@ export default {
     */
     setInvokeServiceDevice(obj, str) {
       const { value, identifier, number } = obj;
-      if (number === this[str]) {
+      if (str && number === this[str]) {
         return false;
       }
       this.pageLoding = true;
