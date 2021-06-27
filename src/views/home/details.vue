@@ -18,7 +18,8 @@
         v-loading="logLoding"
         :data="tableData"
         border
-        style="width: 100%">
+        style="width: 100%"
+        max-height="300">
         <el-table-column
           type="index"
           label="Index"
@@ -28,6 +29,9 @@
           prop="createTime"
           label="Time"
           width="300">
+          <template slot-scope="scope">
+            <span>{{ setTimeStyle1(scope.row.createTime) }}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="requestId"
@@ -88,8 +92,8 @@ export default {
     */
     getProductDetails() {
     },
-    setTimeStyle(val) {
-      return moment(val).format('YYYY-MM-DD');
+    setTimeStyle1(val) {
+      return moment(val).format('YYYY-MM-DD HH:mm:ss');
     },
     /**
      * @description 获取系统日志
