@@ -15,27 +15,36 @@
     <div class="log">
       <h5>System Log</h5>
       <el-table
+        v-loading="logLoding"
         :data="tableData"
         border
         style="width: 100%">
         <el-table-column
           type="index"
           label="Index"
-          width="220">
+          width="60">
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="createTime"
           label="Time"
           width="300">
         </el-table-column>
         <el-table-column
-          prop="Type"
-          label="Type"
+          prop="requestId"
+          label="requestId"
           width="300">
         </el-table-column>
         <el-table-column
-          prop="date"
-          label="Description">
+          prop="productKey"
+          label="productKey">
+        </el-table-column>
+        <el-table-column
+          prop="deviceName"
+          label="deviceName">
+        </el-table-column>
+        <el-table-column
+          prop="eventValue"
+          label="value">
         </el-table-column>
       </el-table>
     </div>
@@ -58,19 +67,9 @@ export default {
     return {
       imgUrl: product1,
       tabPosition: 'top',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }]
+      tableData: [],
+      theTimer: '',
+      logLoding: false,
     };
   },
   computed: {
@@ -80,6 +79,7 @@ export default {
   },
   mounted() {
     this.getSysLogListData();
+    this.theTimer = setInterval(this.getSysLogListData, 10000);
   },
   methods: {
     /**
@@ -97,7 +97,7 @@ export default {
      * @param productKey 设备对应产品的key
     */
     getSysLogListData() {
-      this.pageLoding = true;
+      this.logLoding = true;
       const { deviceName, productKey } = this.deviceDetails;
       this.tableData = [];
       getSysLogList({
@@ -113,9 +113,12 @@ export default {
           })
         }
       }).finally(() => {
-        this.pageLoding = false;
+        this.logLoding = false;
       });
     },
+  },
+  beforeDestroy() {
+    clearInterval(this.theTimer);
   }
 }
 </script>

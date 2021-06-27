@@ -163,3 +163,12 @@ export function getEventMessageDayDetails(params) {
     params: params
   })
 }
+
+export function processEventMessageStatus(params) {
+  // 更改事件-已处理
+  return request({
+    url: '/eventMessage/processEventMessageStatus',
+    method: 'post',
+    params: params
+  })
+}
