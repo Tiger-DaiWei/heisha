@@ -152,7 +152,8 @@
         :data="detalisLists"
         border
         center
-        style="width: 100%">
+        style="width: 100%"
+        max-height="300">
         <el-table-column
           type="index"
           width="50"
