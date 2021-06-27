@@ -1,10 +1,12 @@
 <template>
   <div class="equipment-state">
-    <div class="list">
+    <div
+      class="list"
+      v-loading="tableStateLoading">
       <div class="some-one position-left">
         <h5>Production Bar Module</h5>
         <el-table
-          :data="tableData"
+          :data="tableData.position_bar"
           border
           style="width: 100%">
           <el-table-column
@@ -25,7 +27,7 @@
       <div class="some-one position-top">
         <h5>Charge Module</h5>
         <el-table
-          :data="tableData"
+          :data="tableData.charge"
           border
           style="width: 100%">
           <el-table-column
@@ -46,7 +48,7 @@
       <div class="some-one position-right">
         <h5>Canopy Module</h5>
         <el-table
-          :data="tableData"
+          :data="tableData.canopy"
           border
           style="width: 100%">
           <el-table-column
@@ -67,7 +69,7 @@
       <div class="some-one position-bottom-left">
         <h5>Air Condition Module</h5>
         <el-table
-          :data="tableData"
+          :data="tableData.air_condition"
           border
           style="width: 100%">
           <el-table-column
@@ -88,7 +90,7 @@
      <div class="some-one position-bottom-center">
         <h5>Atmosphere Module</h5>
         <el-table
-          :data="tableData"
+          :data="tableData.atmosphere"
           :show-header="false"
           border
           style="width: 100%">
@@ -110,7 +112,7 @@
       <div class="some-one position-bottom-right">
         <h5>Edge Compiter Module</h5>
         <el-table
-          :data="tableData"
+          :data="tableData.edge_computer"
           :show-header="false"
           border
           style="width: 100%">
@@ -138,6 +140,8 @@
 </template>
 
 <script>
+import { getPendingEventMessage } from '@/api/heiShaProduct';
+import moment from 'moment';
 export default {
   name: 'EquipmentState',
   props: {
@@ -148,20 +152,76 @@ export default {
   },
   data() {
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }]
+      tableStateLoading: false,
+      tableData: {
+        charge: [],
+        position_bar: [],
+        canopy: [],
+        charge: [],
+        atmosphere: [],
+        edge_computer: [],
+        default: [],
+      },
     };
+  },
+  mounted() {
+    this.getPendingEventMessageList();
+  },
+  methods: {
+    /**
+     * @description 获取设备状态
+     * @param deviceName 设备名称
+     * @param productKey 产品key
+    */
+    getPendingEventMessageList() {
+      this.tableStateLoading = true;
+      this.tableData = {
+        charge: [],
+        position_bar: [],
+        canopy: [],
+        air_condition: [],
+        atmosphere: [],
+        edge_computer: [],
+        default: [],
+      };
+      const { deviceName, productKey } = this.deviceDetails;
+      getPendingEventMessage({
+        deviceName,
+        productKey,
+      }).then(({ code, message, data }) => {
+        if (code === 200) {
+          this.setDateStyle(data);
+        } else {
+          this.$message({
+            type: 'error',
+            message: message || '获取数据失败',
+          })
+        }
+      }).finally(() => {
+        this.tableStateLoading = false;
+      });
+    },
+
+    /**
+     * @description 表格数据处理
+     * @param obj 需要处理的数据
+    */
+    setDateStyle(obj) {
+      if (!obj) return false;
+      for(let key in obj) {
+        const objDatas = obj[key];
+        let endData = [];
+        if (Object.keys(objDatas).length !== 0) {
+          for (let key1 in objDatas) {
+            endData.push({
+              time: key1,
+              value: objDatas[key1],
+            });
+          }
+        }
+        this.tableData[key] = endData.sort((a, b) => a.time - b.time);
+      }
+    },
   },
 }
 </script>

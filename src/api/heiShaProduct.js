@@ -145,3 +145,21 @@ export function getSysLogList(params) {
     params: params
   })
 }
+
+export function getPendingEventMessage(params) {
+  // 获取事件列表-每天处理状态
+  return request({
+    url: '/eventMessage/getPendingEventMessage',
+    method: 'post',
+    params: params
+  })
+}
+
+export function getEventMessageDayDetails(params) {
+  // 获取事件列表-每天详情
+  return request({
+    url: '/eventMessage/getEventMessageDayDetails',
+    method: 'post',
+    params: params
+  })
+}
