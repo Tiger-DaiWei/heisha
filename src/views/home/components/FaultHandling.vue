@@ -9,13 +9,14 @@
           :data="tableData.position_bar"
           border
           style="width: 100%"
-          height="190">
+          height="190"
+          @row-click="rowDetails($event, 'position_bar')">
           <el-table-column
-            prop="name"
+            prop="date"
             label="Position Bar">
           </el-table-column>
           <el-table-column
-            prop="value"
+            prop="name"
             label="Locked">
           </el-table-column>
           <el-table-column
@@ -31,13 +32,14 @@
           :data="tableData.charge"
           border
           style="width: 100%"
-          height="190">
+          height="190"
+          @row-click="rowDetails($event, 'charge')">
           <el-table-column
-            prop="name"
+            prop="date"
             label="Charge State">
           </el-table-column>
           <el-table-column
-            prop="value"
+            prop="name"
             label="Power Off Charge">
           </el-table-column>
           <el-table-column
@@ -53,13 +55,14 @@
           :data="tableData.canopy"
           border
           style="width: 100%"
-          height="190">
+          height="190"
+          @row-click="rowDetails($event, 'canopy')">
           <el-table-column
-            prop="name"
+            prop="date"
             label="Canopy State">
           </el-table-column>
           <el-table-column
-            prop="value"
+            prop="name"
             label="Close">
           </el-table-column>
           <el-table-column
@@ -69,20 +72,45 @@
         </el-table>
       </div>
       <div class="line3" />
-     <div class="some-one position-bottom-center">
-        <h5>Edge Computer Module</h5>
+      <div class="some-one position-bottom-left">
+        <h5>Air Condition Module</h5>
         <el-table
-          :data="tableData.sys_post"
+          :data="tableData.air_condition"
           border
           style="width: 100%"
-          height="140">
+          height="190"
+          @row-click="rowDetails($event, 'air_condition')">
           <el-table-column
-            prop="name"
-            label="Sys_post">
+            prop="date"
+            label="Operation State">
           </el-table-column>
           <el-table-column
-            prop="value"
-            label="status">
+            prop="name"
+            label="Fault">
+          </el-table-column>
+          <el-table-column
+            prop="status"
+            width="60px">
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="line4" />
+     <div class="some-one position-bottom-center">
+        <h5>Atmosphere Module</h5>
+        <el-table
+          :data="tableData.atmosphere"
+          :show-header="false"
+          border
+          style="width: 100%"
+          height="140"
+          @row-click="rowDetails($event, 'atmosphere')">
+          <el-table-column
+            prop="date"
+            label="日期">
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            label="姓名">
           </el-table-column>
           <el-table-column
             prop="status"
@@ -91,19 +119,97 @@
         </el-table>
       </div>
       <div class="line5" />
+      <div class="some-one position-bottom-right">
+        <h5>Edge Compiter Module</h5>
+        <el-table
+          :data="tableData.edge_computer"
+          :show-header="false"
+          border
+          style="width: 100%"
+          height="140"
+          @row-click="rowDetails($event, 'edge_computer')">
+          <el-table-column
+            prop="date"
+            label="日期">
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            label="姓名">
+          </el-table-column>
+          <el-table-column
+            prop="status"
+            width="60px">
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="line6" />
       <div class="main-title">
         DeviceName:{{ deviceDetails.deviceName }}<br />
         State:{{ deviceDetails.status }}&nbsp;&nbsp;WorkingMode: {{ deviceDetails.deviceRunStatus }}<br />
       </div>
     </div>
+    <el-dialog
+      :title="dialogTitle"
+      :visible.sync="dialogVisible"
+      :before-close="dialogClose"
+      width="980px">
+      <el-table
+        v-loading="dialogLoading"
+        :data="detalisLists"
+        border
+        center
+        style="width: 100%"
+        max-height="300">
+        <el-table-column
+          type="index"
+          width="50"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          prop="productKey"
+          label="productKey"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          prop="deviceName"
+          label="deviceName"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          prop="identifier"
+          label="identifier"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          prop="eventValue"
+          label="eventValue"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          prop="eventStatus"
+          label="eventStatus"
+          align="center">
+        </el-table-column>
+        <el-table-column label="操作" width="180" align="center">
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              v-show="scope.row.eventStatus === 'pending'"
+              @click="toProcessEventMessageStatus(scope.row.id)">
+              处理
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getDeviceMessage } from '@/api/heiShaProduct';
+import { getPendingEventMessage, getEventMessageDayDetails, processEventMessageStatus } from '@/api/heiShaProduct';
 import moment from 'moment';
 export default {
-  name: 'EquipmentState',
+  name: 'FaultHandling',
   props: {
     deviceDetails: {
       type: Object,
@@ -121,11 +227,14 @@ export default {
         atmosphere: [],
         edge_computer: [],
         default: [],
-        sys_post: [],
       },
+      dialogTitle: '详情',
+      dialogVisible: false,
+      detalisLists: [],
+      dialogLoading: false,
     };
   },
-  created() {
+  mounted() {
     this.getPendingEventMessageList();
   },
   methods: {
@@ -144,10 +253,9 @@ export default {
         atmosphere: [],
         edge_computer: [],
         default: [],
-        sys_post: [],
       };
       const { deviceName, productKey } = this.deviceDetails;
-      getDeviceMessage({
+      getPendingEventMessage({
         deviceName,
         productKey,
       }).then(({ code, message, data }) => {
@@ -170,22 +278,83 @@ export default {
     */
     setDateStyle(obj) {
       if (!obj) return false;
-      const endObj = JSON.parse(JSON.stringify(obj));
-      for(let key in endObj) {
-        if (key === 'status') return false;
-        const objDatas = JSON.parse(obj[key]);
+      for(let key in obj) {
+        const objDatas = obj[key];
         let endData = [];
         if (Object.keys(objDatas).length !== 0) {
-          for (let key1 in objDatas.value) {
+          for (let key1 in objDatas) {
             endData.push({
-              name: key1,
-              value: objDatas.value[key1],
+              date: key1,
+              name: objDatas[key1],
             });
           }
         }
-        this.tableData[key.split(':')[0]] = endData;
+        this.tableData[key] = endData.sort((a, b) => {
+          return a.date - b.date ? 1 : -1;
+        });
       }
     },
+
+    /**
+     * @description 表格某行点击事件
+    */
+    rowDetails(row, str) {
+      this.dialogVisible = true;
+      this.getEventMessageDayDetailsInf(row, str);
+    },
+    /**
+     * @description 获取设备状态表格一行的详情
+     * @param deviceName 设备名称
+     * @param productKey 产品key
+     * @param day 时间
+     * @param moduleIdentifier 状态
+    */
+    getEventMessageDayDetailsInf(obj, str) {
+      const { deviceName, productKey } = this.deviceDetails;
+      const { date } = obj;
+      this.dialogLoading = true;
+      getEventMessageDayDetails({
+        deviceName,
+        productKey,
+        moduleIdentifier: str,
+        day: date,
+      }).then(({ code, message, data }) => {
+        if (code === 200) {
+          this.detalisLists = data;
+        } else {
+          this.$message({
+            type: 'error',
+            message: message || '获取数据失败',
+          })
+        }
+      }).finally(() => {
+        this.dialogLoading = false;
+      });
+    },
+    dialogClose() {
+      this.dialogVisible = false;
+      this.detalisLists = [];
+    },
+    /**
+     * @description 将未处理设备处理
+     * @param id 唯一标识
+    */
+    toProcessEventMessageStatus(str) {
+      processEventMessageStatus({
+        id: str,
+      }).then(({ code, message, data }) => {
+        if (code === 200) {
+          this.getPendingEventMessageList();
+          this.dialogClose();
+        } else {
+          this.$message({
+            type: 'error',
+            message: message || '处理失败',
+          })
+        }
+      }).finally(() => {
+      });
+    }
   },
 }
 </script>
