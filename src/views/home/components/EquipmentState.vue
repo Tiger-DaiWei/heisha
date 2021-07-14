@@ -70,7 +70,7 @@
       </div>
       <div class="line3" />
      <div class="some-one position-bottom-center">
-        <h5>Edge Computer Module</h5>
+        <h5>Default Module</h5>
         <el-table
           :data="tableData.sys_post"
           border
