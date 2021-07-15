@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { deviceList } from '@/api/heiShaProduct';
+import { userDeviceList } from '@/api/heiShaProduct';
 import product1 from '@/assets/images/device/device1.png';
 import moment from 'moment';
   export default {
@@ -78,9 +78,8 @@ import moment from 'moment';
       getListProduct() {
         this.pageLoding = true;
         this.shopLists = [];
-        deviceList({
-          pageNum: 1,
-          pageSize: 50,
+        userDeviceList({
+          userId: 3,
         }).then(response => {
           // const { list, pageNum, pageSize, total, totalPage } = response.data;
           const { list, total } = response.data

@@ -7,17 +7,12 @@
           />
       </el-tab-pane>
       <el-tab-pane label="设备操作">
-        <EquipmentOperation
+        <NewEquipmentOperation
           :deviceDetails="deviceDetails"
           />
       </el-tab-pane>
       <el-tab-pane label="故障处理">
         <FaultHandling
-          :deviceDetails="deviceDetails"
-          />
-      </el-tab-pane>
-      <el-tab-pane label="新设备操作">
-        <NewEquipmentOperation
           :deviceDetails="deviceDetails"
           />
       </el-tab-pane>
@@ -69,7 +64,7 @@
 import product1 from '@/assets/images/product/product1.jpeg';
 import moment from 'moment';
 import EquipmentState from './components/EquipmentState';
-import EquipmentOperation from './components/EquipmentOperation';
+// import EquipmentOperation from './components/EquipmentOperation';
 import NewEquipmentOperation from './components/NewEquipmentOperation';
 import FaultHandling from './components/FaultHandling';
 import { getSysLogList } from '@/api/heiShaProduct';
@@ -77,7 +72,7 @@ export default {
   name: 'deviceDetails',
   components: {
     EquipmentState,
-    EquipmentOperation,
+    // EquipmentOperation,
     FaultHandling,
     NewEquipmentOperation,
   },
