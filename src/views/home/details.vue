@@ -16,6 +16,11 @@
           :deviceDetails="deviceDetails"
           />
       </el-tab-pane>
+      <el-tab-pane label="新设备操作">
+        <NewEquipmentOperation
+          :deviceDetails="deviceDetails"
+          />
+      </el-tab-pane>
     </el-tabs>
     <div class="log">
       <h5>System Log</h5>
@@ -65,6 +70,7 @@ import product1 from '@/assets/images/product/product1.jpeg';
 import moment from 'moment';
 import EquipmentState from './components/EquipmentState';
 import EquipmentOperation from './components/EquipmentOperation';
+import NewEquipmentOperation from './components/NewEquipmentOperation';
 import FaultHandling from './components/FaultHandling';
 import { getSysLogList } from '@/api/heiShaProduct';
 export default {
@@ -73,6 +79,7 @@ export default {
     EquipmentState,
     EquipmentOperation,
     FaultHandling,
+    NewEquipmentOperation,
   },
   data() {
     return {
