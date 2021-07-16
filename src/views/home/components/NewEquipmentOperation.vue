@@ -96,9 +96,9 @@ export default {
       },
       positionBarModule: {
         Bar: [
-          { label: 'reset', value: '{ "reset_bar":1 }', identifier: ' position_bar:GZService' },
-          { label: 'take', value: '{ "takebar":1 }', identifier: ' position_bar:GZService' },
-          { label: 'release', value: '{ "releasebar":1 }', identifier: ' position_bar:GZService' },
+          { label: 'reset', value: '{ "reset_bar":1 }', identifier: 'position_bar:GZService' },
+          { label: 'take', value: '{ "takebar":1 }', identifier: 'position_bar:GZService' },
+          { label: 'release', value: '{ "releasebar":1 }', identifier: 'position_bar:GZService' },
         ],
       },
       canopyBarModuleValue: {
