@@ -12,7 +12,16 @@
     </ul>
     <!-- tab栏对应下的组件内容 -->
     <div class="detail">
-      <DeviceManagement :deviceDetails="deviceDetails"/>
+      <!-- 设备管理组件 -->
+      <DeviceManagement
+        v-if="activeName === 'DeviceManagement'"
+        :deviceDetails="deviceDetails"
+      />
+      <!-- 设备操作组件 -->
+      <DeviceOperation
+        v-if="activeName === 'DeviceOperation'"
+        :deviceDetails="deviceDetails"
+      />
     </div>
   </div>
 </template>
@@ -22,6 +31,7 @@ export default {
   name: 'DeviceInfo',
   components: {
     DeviceManagement: () => import('@/views/home/components/DeviceManagement'),
+    DeviceOperation: () => import('@/views/home/components/DeviceOperation'),
   },
   data() {
     return {
