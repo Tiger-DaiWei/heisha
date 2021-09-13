@@ -38,6 +38,13 @@ export const constantRouterMap = [
         component: () => import('@/views/home/details'),
         meta: {title: '设备详情'},
         hidden: true,
+      },
+      {
+        path: 'deviceInfo',
+        name: 'DeviceInfo',
+        component: () => import('@/views/home/deviceInfo'),
+        meta: {title: '设备详情'},
+        hidden: true,
       }
     ]
   },

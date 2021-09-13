@@ -99,7 +99,7 @@ import moment from 'moment';
       goDetails(val) {
         localStorage.removeItem('deviceDetails');
         localStorage.setItem('deviceDetails', JSON.stringify(val));
-        this.$router.push('/deviceDetails');
+        this.$router.push('/deviceInfo');
       },
     }
   }

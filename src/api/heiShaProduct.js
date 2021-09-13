@@ -172,3 +172,12 @@ export function processEventMessageStatus(params) {
     params: params
   })
 }
+
+export function selectTree(params) {
+  // 查询状态打开的树形数据
+  return request({
+    url: '/eventTree/selectTree',
+    method: 'get',
+    params: params
+  }) 
+}
