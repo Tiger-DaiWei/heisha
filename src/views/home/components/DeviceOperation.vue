@@ -71,7 +71,7 @@ export default {
         {
           value: [
             { title: '电压：17.2V', key: '11' },
-            { title: '电流：2.3A', key: '11' },
+            { title: '电流：2.3A', key: '113' },
           ]
         },
         {
