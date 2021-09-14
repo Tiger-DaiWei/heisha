@@ -28,7 +28,7 @@
         <p>上报时间：{{ toReturnTime(contentTips.date) }} </p>
         <p>故障描述：{{ contentTips.desc || '--' }} </p>
         <p>维护建议：{{ contentTips.recommend || '--' }} </p>
-        <div class="btn">消除</div>
+        <div class="btn" @click="toEliminateTheFault(contentTips.eventMessageId)">消除</div>
       </div>
       <div
         :class="[{ 'isTips': isWarning }, 'list']"
@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import bus from '@/utils/bus.js';
 import moment from 'moment';
 export default {
   name: 'TreeMockNode',
@@ -96,6 +97,16 @@ export default {
     // 返回满足要求的日期
     toReturnTime(str) {
       return str ? moment(str).format('YYYY-MM-DD HH:mm:ss') : '--';
+    },
+    // 消除故障
+    toEliminateTheFault(str) {
+      if (!str) {
+        this.$message({
+          type: 'error',
+          message: 'id不存在',
+        })        
+      }
+      bus.$emit('toEliminateTheFault', str);
     },
   },
 }

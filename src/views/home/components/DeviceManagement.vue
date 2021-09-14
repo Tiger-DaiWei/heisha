@@ -12,7 +12,8 @@
 </template>
 
 <script>
-import { selectTree } from '@/api/heiShaProduct';
+import bus from '@/utils/bus.js';
+import { selectTree, processEventMessageStatus } from '@/api/heiShaProduct';
 export default {
   name: 'DeviceInfo',
   props: {
@@ -94,6 +95,11 @@ export default {
       treeLoading: false,
     };
   },
+  created() {
+    bus.$on('toEliminateTheFault', (str) => {
+      this.toProcessEventMessageStatus(str);
+    })
+  },
   mounted() {
     this.getDeviceTree();
   },
@@ -121,6 +127,26 @@ export default {
         this.treeLoading = false;
       });
     },
+    /**
+     * @description 将未处理设备处理
+     * @param id 唯一标识
+    */
+    toProcessEventMessageStatus(str) {
+      if (!str) return false;
+      processEventMessageStatus({
+        id: str,
+      }).then(({ code, message, data }) => {
+        if (code === 200) {
+          this.getDeviceTree();
+        } else {
+          this.$message({
+            type: 'error',
+            message: message || '处理失败',
+          })
+        }
+      }).finally(() => {
+      });
+    }
   },
 }
 </script>
