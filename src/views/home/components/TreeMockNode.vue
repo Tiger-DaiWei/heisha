@@ -117,16 +117,15 @@ export default {
   padding-left: 30px;
   line-height: 24px;
   .list {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
+    display: inline-block;
     .only {
+      display: inline-block;
       width: 14px;
       height: 14px;
       border-radius: 100%;
       border: 1px solid #ccc;
       margin-right: 10px;
+      vertical-align: sub;
     }
   }
   .isTips {
