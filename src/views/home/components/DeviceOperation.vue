@@ -35,7 +35,9 @@
           <div>操作</div>
         </li>
       </ol>
-      <div class="flex5"></div>
+      <div class="flex5 height240">
+        <TrendEchart />
+      </div>
     </div>
   </div>
 </template>
@@ -49,6 +51,9 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  components: {
+    TrendEchart: () => import('@/components/TrendChart'),
   },
   data() {
     return {
@@ -161,6 +166,9 @@ export default {
   }
   .flex5 {
     flex: 5;
+  }
+  .height240 {
+    height: 240px;
   }
 }
 </style>
