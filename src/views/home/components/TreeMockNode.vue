@@ -104,7 +104,7 @@ export default {
         this.$message({
           type: 'error',
           message: 'id不存在',
-        })        
+        })
       }
       bus.$emit('toEliminateTheFault', str);
     },
@@ -118,6 +118,7 @@ export default {
   line-height: 24px;
   .list {
     display: inline-block;
+    cursor: pointer;
     .only {
       display: inline-block;
       width: 14px;

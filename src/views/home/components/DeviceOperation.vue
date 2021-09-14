@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { getDeviceMessage } from '@/api/heiShaProduct';
 export default {
   name: 'DeviceOperation',
   props: {
@@ -60,6 +61,8 @@ export default {
         { value: [{ title: '英伟达供电状态：', key: '14' }] },
         { value: [{ title: '遥控器操作：', key: '15' }] },
       ],
+      // 视频流相关数据
+      operateData: {},
       // 电压相关操作
       voltageList: [
         { 
@@ -80,7 +83,36 @@ export default {
           ]
         },
       ],
+      // 电压相关数据
+      voltageData: {},
     };
+  },
+  mounted() {
+    this.getDeviceMessageInterface();
+  },
+  methods: {
+    /**
+     * @description 设备状态接口数据获取
+     * @param deviceName 设备名称
+     * @param productKey 设备对应产品的key
+    */
+    getDeviceMessageInterface() {
+      const { deviceName, productKey } = this.deviceDetails;
+      getDeviceMessage({
+        deviceName,
+        productKey,
+      }).then(({ code, data, message }) => {
+        if (code === 200) {
+          console.log(data);
+        } else {
+          this.$message({
+            type: 'error',
+            message: message || '获取设备状态失败',
+          })
+        }
+      }).finally(() => {
+      });
+    },
   },
 }
 </script>
