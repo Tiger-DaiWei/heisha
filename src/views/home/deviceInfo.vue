@@ -30,7 +30,9 @@
 export default {
   name: 'DeviceInfo',
   components: {
+    // 设备管理
     DeviceManagement: () => import('@/views/home/components/DeviceManagement'),
+    // 设备操作
     DeviceOperation: () => import('@/views/home/components/DeviceOperation'),
   },
   data() {
@@ -38,12 +40,12 @@ export default {
       // tab栏
       tabList: [
         { name: 'DeviceManagement', label: '设备管理' },
-        { name: 'DeviceStatus', label: '设备状态' },
+        // { name: 'DeviceStatus', label: '设备状态' },
         { name: 'DeviceOperation', label: '设备操作' },
-        { name: 'CommunicationStatus', label: '通讯状态' },
-        { name: 'EventStatus', label: '事件状态' },
+        // { name: 'CommunicationStatus', label: '通讯状态' },
+        // { name: 'EventStatus', label: '事件状态' },
       ],
-      activeName: 'DeviceStatus',
+      activeName: 'DeviceManagement',
     };
   },
   computed: {
