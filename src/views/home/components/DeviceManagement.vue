@@ -116,7 +116,7 @@ export default {
         deviceName,
       }).then(({ code, message, data }) => {
         if (code === 200 && data) {
-          this.theTreeData = data.list || [];
+          this.theTreeData = this.toSetTreeKey(data.list || []);
         } else {
           this.$message({
             type: 'error',
