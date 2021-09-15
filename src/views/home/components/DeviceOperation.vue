@@ -397,14 +397,14 @@ export default {
       // cdvoltage: '--',
       const { cdvoltage } = this.toSetDateStyle(obj, 'charge:CDpost');
       voltageData.cdvoltage = {
-        text: `${!isNaN(cdvoltage) ? cdvoltage :  '--'}*10 V`,
+        text: `${!isNaN(cdvoltage) ? (cdvoltage / 10).toFixed(1) :  '--'}*10 V`,
         status: '--',
       };
       // // 电流：charge:CDpost:cdcurrent-----电流*10 A
       // cdcurrent: '--',
       const { cdcurrent } = this.toSetDateStyle(obj, 'charge:CDpost');
       voltageData.cdcurrent = {
-        text: `${!isNaN(cdcurrent) ? cdcurrent :  '--'}*10 A`,
+        text: `${!isNaN(cdcurrent) ? (cdcurrent / 10).toFixed(1) :  '--'}*10 A`,
         status: '--',
       };
       // // 充电时长：charge:CDpost:cdtim-----分钟
