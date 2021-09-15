@@ -91,9 +91,9 @@ export default {
         {
           value: [{ title: '防雨盖状态：', key: 'canopystatus' }],
           button: [
-            { label: '打开', value: '{}', identifier: '', status: [1, 5], key: 'canopystatus' },
-            { label: '关闭', value: '{}', identifier: '', status: [2, 4], key: 'canopystatus' },
-            { label: '复位', value: '{}', identifier: '', status: [0, 6], key: 'canopystatus' },
+            { label: '打开', value: '{ "Canopyopen":1 }', identifier: 'canopy:GTService', status: [1, 5], key: 'canopystatus' },
+            { label: '关闭', value: '{ "Canopyoff":1 }', identifier: 'canopy:GTService', status: [2, 4], key: 'canopystatus' },
+            { label: '复位', value: '{ "Canopyreset":1 }', identifier: 'canopy:GTService', status: [0, 6], key: 'canopystatus' },
           ],
         },
         {
@@ -106,16 +106,16 @@ export default {
         {
           value: [{ title: '无人机状态：', key: 'cdstatus' }],
           button: [
-            { label: '开机', value: '{}', identifier: '', number: 1, status: [2], key: 'cdstatus' },
-            { label: '关机', value: '{}', identifier: '', number: 2, status: [1], key: 'cdstatus' },
+            { label: '开机', value: '{ "openbattery":1 }', identifier: 'charge:CDService', status: [2], key: 'cdstatus' },
+            { label: '关机', value: '{ "offbattery":1 }', identifier: 'charge:CDService', status: [1], key: 'cdstatus' },
           ],
         },
         {
           value: [{ title: '归中杆状态：', key: 'barstatus' }],
           button: [
-            { label: '释放', value: '{}', identifier: '', number: 1, status: [2, 3, 4], key: 'barstatus' },
-            { label: '收紧', value: '{}', identifier: '', number: 2, status: [1, 5], key: 'barstatus' },
-            { label: '复位', value: '{}', identifier: '', number: 1, status: [0, 6], key: 'barstatus' },
+            { label: '释放', value: '{ "releasebar":1 }', identifier: 'position_bar:GZService', status: [2, 3, 4], key: 'barstatus' },
+            { label: '收紧', value: '{ "takebar":1 }', identifier: 'position_bar:GZService', status: [1, 5], key: 'barstatus' },
+            { label: '复位', value: '{ "reset_bar":1 }', identifier: 'position_bar:GZService', status: [0, 6], key: 'barstatus' },
           ],
         },
         {
@@ -128,7 +128,7 @@ export default {
         {
           value: [{ title: '遥控器操作：', key: '15', noNeedValue: true, }],
           button: [
-            { label: '开/关', value: '{ "op":0 }', identifier: 'edge_computer:rc_operate', noNeedJudge: true, status: [''], key: '15' },
+            { label: '开/关', value: '{ "sys_reset":1 }', identifier: 'sys_service', noNeedJudge: true, status: [''], key: '15' },
           ],
         },
       ],
@@ -209,8 +209,8 @@ export default {
             { title: '充电时长：', key: 'cdtim' }
           ],
           button: [
-            { label: '停止充电', value: '{}', identifier: '', number: 0, status: [1, 2, 3, 4, 5, 8], key: 'cdstatus' },
-            { label: '开始充电', value: '{}', identifier: '', number: 0, status: [0], key: 'cdstatus' },
+            { label: '停止充电', value: '{ "stopcharge":1 }', identifier: 'charge:CDService', status: [1, 2, 3, 4, 5, 8], key: 'cdstatus' },
+            { label: '开始充电', value: '{ "startcharge":1 }', identifier: 'charge:CDService', status: [0], key: 'cdstatus' },
           ],
         },
       ],
