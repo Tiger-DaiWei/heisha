@@ -146,6 +146,19 @@ export default {
         }
       }).finally(() => {
       });
+    },
+    /**
+     * @description 给树节点添加属性
+     * @param obj 要操作的数据
+    */
+    toSetTreeKey(obj) {
+      obj.forEach(el => {
+        if (el.childNode && el.childNode.length) {
+          el.show = true;
+          this.toSetTreeKey(el.childNode);
+        }
+      })
+      return obj;
     }
   },
 }
