@@ -27,7 +27,7 @@
               :key="item2.label">
               <span
                 v-show="item2.noNeedJudge || item2.status.includes(operateData[item2.key]['status'])"
-                @click="setInvokeServiceDevice(item, 'posiTionBarState')">
+                @click="setInvokeServiceDevice(item2)">
                 {{ item2.label }}
               </span>
             </dd>
@@ -55,7 +55,7 @@
               :key="item2.label">
               <span
                 v-show="item2.noNeedJudge || item2.status.includes(voltageData[item2.key]['status'])"
-                @click="setInvokeServiceDevice(item, 'posiTionBarState')">
+                @click="setInvokeServiceDevice(item2)">
                 {{ item2.label }}
               </span>
             </dd>
@@ -91,16 +91,16 @@ export default {
         {
           value: [{ title: '防雨盖状态：', key: 'canopystatus' }],
           button: [
-            { label: '打开', value: '{}', identifier: '', number: 1, status: [1, 5], key: 'canopystatus' },
-            { label: '关闭', value: '{}', identifier: '', number: 1, status: [2, 4], key: 'canopystatus' },
-            { label: '复位', value: '{}', identifier: '', number: 1, status: [0, 6], key: 'canopystatus' },
+            { label: '打开', value: '{}', identifier: '', status: [1, 5], key: 'canopystatus' },
+            { label: '关闭', value: '{}', identifier: '', status: [2, 4], key: 'canopystatus' },
+            { label: '复位', value: '{}', identifier: '', status: [0, 6], key: 'canopystatus' },
           ],
         },
         {
           value: [{ title: '安卓供电状态：', key: 'AndroidPower' }],
           button: [
-            { label: '打开', value: '{ "channel":0, "op":1 }', identifier: 'edge_computer:power_operate', number: 1, status: [0], key: 'AndroidPower' },
-            { label: '断开', value: '{ "channel":0, "op":0 }', identifier: 'edge_computer:power_operate', number: 0, status: [1], key: 'AndroidPower' },
+            { label: '打开', value: '{ "AndroidPowerOpen":1 }', identifier: 'sys_service', status: [0], key: 'AndroidPower' },
+            { label: '断开', value: '{ "AndroidPowerOff":1 }', identifier: 'sys_service', status: [1], key: 'AndroidPower' },
           ],
         },
         {
@@ -121,8 +121,8 @@ export default {
         {
           value: [{ title: '英伟达供电状态：', key: 'NvidiaPower' }],
           button: [
-            { label: '断开', value: '{}', identifier: '', number: 0, status: [1], key: 'NvidiaPower' },
-            { label: '接通', value: '{}', identifier: '', number: 1, status: [0], key: 'NvidiaPower' },
+            { label: '断开', value: '{ "NvidiaPowerOff":1 }', identifier: 'sys_service', status: [1], key: 'NvidiaPower' },
+            { label: '接通', value: '{ "NvidiaPowerOpen":1 }', identifier: 'sys_service', status: [0], key: 'NvidiaPower' },
           ],
         },
         {
@@ -290,8 +290,6 @@ export default {
         this.operateData = operateData;
         this.voltageData = voltageData;
         this.operateLoading = false;
-        console.log(operateData);
-        console.log(voltageData);
       });
     },
     /**
@@ -412,7 +410,6 @@ export default {
       // // 充电时长：charge:CDpost:cdtim-----分钟
       // cdtim: '--',
       const { cdtim } = this.toSetDateStyle(obj, 'charge:CDpost');
-      console.log(cdtim);
       voltageData.cdtim = {
         text: `${!isNaN(cdtim) ? cdtim :  '--'}分钟`,
         status: '--',
@@ -433,6 +430,7 @@ export default {
     */
     setInvokeServiceDevice(obj) {
       this.operateLoading = true;
+      const { value, identifier } = obj;
       const { deviceName, productKey } = this.deviceDetails;
       invokeServiceDevice({
         deviceName, // 设备名称
