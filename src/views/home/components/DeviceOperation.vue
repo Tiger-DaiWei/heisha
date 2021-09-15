@@ -192,7 +192,7 @@ export default {
       },
       // 电压相关操作
       voltageList: [
-        { 
+        {
           value: [
             { title: '充电状态：', key: 'cdstatus' },
             { title: '电池类型：', key: 'battery_type' },
@@ -258,10 +258,13 @@ export default {
         1: '3S',
         2: '4S',
       },
+      // 定时器
+      theTimer: '',
     };
   },
   mounted() {
     this.getDeviceMessageInterface();
+    this.theTimer = setInterval(this.getDeviceMessageInterface, 30000);
   },
   methods: {
     /**
@@ -454,6 +457,9 @@ export default {
         this.operateLoading = false;
       });
     },
+  },
+  beforeDestroy() {
+    clearInterval(this.theTimer);
   },
 }
 </script>

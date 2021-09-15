@@ -28,69 +28,7 @@ export default {
   data() {
     return {
       // 设备树数据
-      theTreeData: [
-        {
-          label: 'DNEST（HEISHADNEST2021080001)',
-          children: [
-            {
-              label: '边缘计算',
-              children: [],
-            },
-            {
-              label: '防雨盖',
-              children: [
-                {
-                  label: '传动系统',
-                  children: [],
-                },
-                {
-                  label: '温控系统',
-                  children: [
-                    {
-                      label: '传动系统',
-                      children: [],
-                    },
-                    {
-                      label: '温控系统',
-                      children: [],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              label: '充电板',
-              children: [],
-            },
-          ],
-        },
-        {
-          label: 'DNEST（HEISHADNEST2021080001)',
-          // children: [
-          //   {
-          //     label: '边缘计算',
-          //     children: [],
-          //   },
-          //   {
-          //     label: '防雨盖',
-          //     children: [
-          //       {
-          //         label: '传动系统',
-          //         children: [],
-          //       },
-          //       {
-          //         label: '温控系统',
-          //         children: [],
-          //       },
-          //     ],
-          //   },
-          //   {
-          //     label: '充电板',
-          //     children: [],
-          //   },
-          // ],
-        },
-      ],
+      theTreeData: [],
       // 设备树加载
       treeLoading: false,
     };
@@ -159,7 +97,7 @@ export default {
         }
       })
       return obj;
-    }
+    },
   },
 }
 </script>
