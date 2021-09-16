@@ -293,6 +293,8 @@ export default {
         this.operateData = operateData;
         this.voltageData = voltageData;
         this.operateLoading = false;
+        console.log(operateData);
+        console.log(voltageData);
       });
     },
     /**
@@ -364,9 +366,16 @@ export default {
       const { cdstatus } = this.toSetDateStyle(obj, 'charge:CDpost');
       // 十进制转二进制
       const endStatus = (cdstatus || 0).toString(2);
+      // 判断是否是8位二进制数据（不够长度前面补，暂时不会有超出8位的）
+      const bitStringLength = endStatus.length;
+      let addStr = '';
+      for(let i = 0; i < 8 - bitStringLength; i++) {
+        addStr += '0';
+      }
+      const endStatusBit = `${addStr}${endStatus}`;
       // 二进制转十进制
-      const text1 = parseInt(endStatus.slice(0, 2), 2);
-      const text2 = parseInt(endStatus.substr(endStatus.length - 4), 2);
+      const text1 = parseInt(endStatusBit.slice(0, 2), 2);
+      const text2 = parseInt(endStatusBit.substr(endStatusBit.length - 4), 2);
       operateData.cdstatus = {
         text: this.cdstatusText[text1],
         status: text1,
@@ -400,14 +409,14 @@ export default {
       // cdvoltage: '--',
       const { cdvoltage } = this.toSetDateStyle(obj, 'charge:CDpost');
       voltageData.cdvoltage = {
-        text: `${!isNaN(cdvoltage) ? (cdvoltage / 10).toFixed(1) :  '--'}*10 V`,
+        text: `${!isNaN(cdvoltage) ? (cdvoltage / 10).toFixed(1) :  '--'} V`,
         status: '--',
       };
       // // 电流：charge:CDpost:cdcurrent-----电流*10 A
       // cdcurrent: '--',
       const { cdcurrent } = this.toSetDateStyle(obj, 'charge:CDpost');
       voltageData.cdcurrent = {
-        text: `${!isNaN(cdcurrent) ? (cdcurrent / 10).toFixed(1) :  '--'}*10 A`,
+        text: `${!isNaN(cdcurrent) ? (cdcurrent / 10).toFixed(1) :  '--'} A`,
         status: '--',
       };
       // // 充电时长：charge:CDpost:cdtim-----分钟
@@ -459,6 +468,7 @@ export default {
     },
   },
   beforeDestroy() {
+    // 清空定时器
     clearInterval(this.theTimer);
   },
 }
