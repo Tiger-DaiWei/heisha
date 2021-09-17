@@ -128,7 +128,7 @@ export default {
         {
           value: [{ title: '遥控器操作：', key: '15', noNeedValue: true, }],
           button: [
-            { label: '开/关', value: '{ "sys_reset":1 }', identifier: 'sys_service', noNeedJudge: true, status: [''], key: '15' },
+            { label: '开/关', value: '{ "remote_open":1 }', identifier: 'sys_service', noNeedJudge: true, status: [''], key: '15' },
           ],
         },
       ],
