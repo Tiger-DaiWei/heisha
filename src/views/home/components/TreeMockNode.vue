@@ -28,7 +28,7 @@
         <p>上报时间：{{ toReturnTime(contentTips.date) }} </p>
         <p>故障描述：{{ contentTips.desc || '--' }} </p>
         <p>维护建议：{{ contentTips.recommend || '--' }} </p>
-        <div class="btn" @click="toEliminateTheFault(contentTips.eventMessageId)">消除</div>
+        <div class="btn" @click="toEliminateTheFault(contentTips.eventAlarmId)">消除</div>
       </div>
       <div
         :class="[{ 'isTips': isWarning }, 'list']"
@@ -147,7 +147,7 @@ export default {
       border: 0.5px dashed #ccc;
     }
   }
-}  
+}
 .tree-log {
   padding: 20px;
   .btn {

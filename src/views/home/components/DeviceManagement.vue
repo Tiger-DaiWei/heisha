@@ -13,7 +13,7 @@
 
 <script>
 import bus from '@/utils/bus.js';
-import { selectTree, processEventMessageStatus } from '@/api/heiShaProduct';
+import { selectTree, eventAlarmDelete } from '@/api/heiShaProduct';
 export default {
   name: 'DeviceInfo',
   props: {
@@ -71,7 +71,7 @@ export default {
     */
     toProcessEventMessageStatus(str) {
       if (!str) return false;
-      processEventMessageStatus({
+      eventAlarmDelete({
         id: str,
       }).then(({ code, message, data }) => {
         if (code === 200) {

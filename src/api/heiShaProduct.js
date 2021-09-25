@@ -179,5 +179,14 @@ export function selectTree(params) {
     url: '/eventTree/selectTree',
     method: 'get',
     params: params
-  }) 
+  })
+}
+
+export function eventAlarmDelete(params) {
+  // 消除接口
+  return request({
+    url: '/eventAlarm/delete',
+    method: 'post',
+    params: params
+  })
 }
