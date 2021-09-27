@@ -264,7 +264,7 @@ export default {
   },
   mounted() {
     this.getDeviceMessageInterface();
-    this.theTimer = setInterval(this.getDeviceMessageInterface, 30000);
+    this.theTimer = setInterval(this.getDeviceMessageInterface, 5000);
   },
   methods: {
     /**
