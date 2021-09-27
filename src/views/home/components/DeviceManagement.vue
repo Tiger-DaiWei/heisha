@@ -13,7 +13,7 @@
 
 <script>
 import bus from '@/utils/bus.js';
-import { selectTree, eventAlarmDelete } from '@/api/heiShaProduct';
+import { selectTree } from '@/api/heiShaProduct';
 export default {
   name: 'DeviceInfo',
   props: {
@@ -34,8 +34,9 @@ export default {
     };
   },
   created() {
-    bus.$on('toEliminateTheFault', (str) => {
-      this.toProcessEventMessageStatus(str);
+    bus.$off('toEliminateTheFault');
+    bus.$on('toEliminateTheFault', () => {
+      this.getDeviceTree();
     })
   },
   mounted() {
@@ -49,6 +50,7 @@ export default {
     getDeviceTree() {
       this.treeLoading = true;
       this.theTreeData = [];
+      console.log(this.deviceDetails + 'new date' + new Date());
       const { deviceName } = this.deviceDetails;
       selectTree({
         deviceName,
@@ -63,26 +65,6 @@ export default {
         }
       }).finally(() => {
         this.treeLoading = false;
-      });
-    },
-    /**
-     * @description 将未处理设备处理
-     * @param id 唯一标识
-    */
-    toProcessEventMessageStatus(str) {
-      if (!str) return false;
-      eventAlarmDelete({
-        id: str,
-      }).then(({ code, message, data }) => {
-        if (code === 200) {
-          this.getDeviceTree();
-        } else {
-          this.$message({
-            type: 'error',
-            message: message || '处理失败',
-          })
-        }
-      }).finally(() => {
       });
     },
     /**

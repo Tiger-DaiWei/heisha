@@ -28,7 +28,7 @@
         <p>上报时间：{{ toReturnTime(contentTips.date) }} </p>
         <p>故障描述：{{ contentTips.desc || '--' }} </p>
         <p>维护建议：{{ contentTips.recommend || '--' }} </p>
-        <div class="btn" @click="toEliminateTheFault(contentTips.eventAlarmId)">消除</div>
+        <div class="btn" @click.stop="toEliminateTheFault(contentTips.eventAlarmId)">消除</div>
       </div>
       <div
         :class="[{ 'isTips': isWarning }, 'list']"
@@ -61,6 +61,7 @@
 <script>
 import bus from '@/utils/bus.js';
 import moment from 'moment';
+import { eventAlarmDelete } from '@/api/heiShaProduct';
 export default {
   name: 'TreeMockNode',
   props: {
@@ -101,12 +102,24 @@ export default {
     // 消除故障
     toEliminateTheFault(str) {
       if (!str) {
-        this.$message({
+        return this.$message({
           type: 'error',
           message: 'id不存在',
         })
       }
-      bus.$emit('toEliminateTheFault', str);
+      eventAlarmDelete({
+        id: str,
+      }).then(({ code, message }) => {
+        if (code === 200) {
+          bus.$emit('toEliminateTheFault');
+        } else {
+          this.$message({
+            type: 'error',
+            message: message || '处理失败',
+          })
+        }
+      }).finally(() => {
+      });
     },
   },
 }
