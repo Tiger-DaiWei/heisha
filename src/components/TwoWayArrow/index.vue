@@ -14,7 +14,7 @@
 export default {
   name: 'TwoWayArrow',
   props: {
-    // 水平方向(true: 水平方法；false竖直方向)
+    // 旋转度数
     rotatingDegree: {
       type: Number,
       default: 0,
@@ -24,10 +24,10 @@ export default {
       type: Number,
       default: 100,
     },
-    // 虚实(true: 实线；false虚线)
+    // 虚实(1: 实线；0虚线)
     virtualReality: {
-      type: Boolean,
-      default: true,
+      type: Number,
+      default: 1,
     }
   },
 }
@@ -35,8 +35,7 @@ export default {
 
 <style lang="scss" scoped>
 .two-way-arrow {
-  border: 1px solid red;
-  height: 10px;
+  height: 8px;
   position: relative;
   // 水平方向箭头
   &::before {
@@ -72,7 +71,6 @@ export default {
     right: 0;
     bottom: 0;
     margin: auto;
-    background: red;
   }
   &.virtual-reality {
     .line {

@@ -199,3 +199,12 @@ export function getDeviceInfo(params) {
     params: params
   })
 }
+
+// 连接状态视图API
+export function getLinkview(params) {
+  return request({
+    url: '/eventMessage/getLinkview',
+    method: 'post',
+    params: params
+  })
+}
