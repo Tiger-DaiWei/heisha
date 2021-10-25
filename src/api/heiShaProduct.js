@@ -208,3 +208,12 @@ export function getLinkview(params) {
     params: params
   })
 }
+
+// 查询事件消息-列表
+export function eventMessageList(params) {
+  return request({
+    url: '/eventMessage/list',
+    method: 'get',
+    params: params
+  })
+}
