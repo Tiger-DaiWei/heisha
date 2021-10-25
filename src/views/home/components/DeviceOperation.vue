@@ -293,8 +293,6 @@ export default {
         this.operateData = operateData;
         this.voltageData = voltageData;
         this.operateLoading = false;
-        console.log(operateData);
-        console.log(voltageData);
       });
     },
     /**
