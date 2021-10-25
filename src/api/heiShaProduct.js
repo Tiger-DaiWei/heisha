@@ -190,3 +190,12 @@ export function eventAlarmDelete(params) {
     params: params
   })
 }
+
+// 获取设备状态
+export function getDeviceInfo(params) {
+  return request({
+    url: '/eventMessage/getDeviceInfo',
+    method: 'post',
+    params: params
+  })
+}

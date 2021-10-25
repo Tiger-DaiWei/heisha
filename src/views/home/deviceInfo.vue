@@ -17,9 +17,24 @@
         v-if="activeName === 'DeviceManagement'"
         :deviceDetails="deviceDetails"
       />
+      <!-- 设备状态 -->
+      <DeviceStatus
+        v-if="activeName === 'DeviceStatus'"
+        :deviceDetails="deviceDetails"
+      />
       <!-- 设备操作组件 -->
       <DeviceOperation
         v-if="activeName === 'DeviceOperation'"
+        :deviceDetails="deviceDetails"
+      />
+      <!-- 通讯状态 -->
+      <CommunicationStatus
+        v-if="activeName === 'CommunicationStatus'"
+        :deviceDetails="deviceDetails"
+      />
+      <!-- 事件状态 -->
+      <EventStatus
+        v-if="activeName === 'EventStatus'"
         :deviceDetails="deviceDetails"
       />
     </div>
@@ -32,18 +47,24 @@ export default {
   components: {
     // 设备管理
     DeviceManagement: () => import('@/views/home/components/DeviceManagement'),
+    // 设备状态
+    DeviceStatus: () => import('@/views/home/components/DeviceStatus'),
     // 设备操作
     DeviceOperation: () => import('@/views/home/components/DeviceOperation'),
+    // 通讯状态
+    CommunicationStatus: () => import('@/views/home/components/CommunicationStatus'),
+    // 事件状态
+    EventStatus: () => import('@/views/home/components/EventStatus'),
   },
   data() {
     return {
       // tab栏
       tabList: [
         { name: 'DeviceManagement', label: '设备管理' },
-        // { name: 'DeviceStatus', label: '设备状态' },
+        { name: 'DeviceStatus', label: '设备状态' },
         { name: 'DeviceOperation', label: '设备操作' },
-        // { name: 'CommunicationStatus', label: '通讯状态' },
-        // { name: 'EventStatus', label: '事件状态' },
+        { name: 'CommunicationStatus', label: '通讯状态' },
+        { name: 'EventStatus', label: '事件状态' },
       ],
       activeName: 'DeviceManagement',
     };
