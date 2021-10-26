@@ -10,22 +10,25 @@
       :data="tableData"
       style="width: 100%">
       <el-table-column
-        prop="createTime"
+        prop="momentCreatTime"
         align="center"
-        label="时间">
+        label="时间"
+        width="200">
       </el-table-column>
       <el-table-column
         prop="deviceType"
         align="center"
-        label="类型">
+        label="类型"
+        width="200">
       </el-table-column>
       <el-table-column
         prop="eventName"
         align="center"
-        label="代号">
+        label="代号"
+        width="200">
       </el-table-column>
       <el-table-column
-        prop="status"
+        prop="eventValue"
         align="center"
         label="描述">
       </el-table-column>
@@ -49,6 +52,7 @@
 
 <script>
 import { eventMessageList } from '@/api/heiShaProduct';
+import moment from 'moment';
 export default {
   name: 'EventStatus',
   props: {
@@ -61,7 +65,7 @@ export default {
     return {
       listQuery: {
         pageNum: 1,
-        pageSize: 5
+        pageSize: 500
       },
       pageLoding: false,
       tableData: [],
@@ -72,6 +76,11 @@ export default {
     this.getEventMessageList();
   },
   methods: {
+    /**
+     * @description 查询事件状态表格信息
+     * @param deviceName 设备名称
+     * @param productKey 设备key
+    */
     getEventMessageList() {
       this.pageLoding = true;
       this.tableData = [];
@@ -79,7 +88,9 @@ export default {
       eventMessageList({deviceName, productKey, ...this.listQuery}).then(response => {
         const { list, total } = response.data
         this.total = total;
-        this.tableData = list;
+        this.tableData = list.map((el) => (
+          { ...el, momentCreatTime: moment(el.createTime).format('YYYY-MM-DD HH:mm:ss'),}
+        ));
       }).finally(() => {
         this.pageLoding = false;
       });
@@ -108,6 +119,11 @@ export default {
       margin-right: 18px;
     }
     margin-bottom: 24px;
+  }
+  .el-table {
+    /deep/ th {
+      background: rgb(220, 220, 220);
+    }
   }
 }
 </style>
