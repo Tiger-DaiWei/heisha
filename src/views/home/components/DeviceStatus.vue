@@ -125,10 +125,9 @@ export default {
   .table {
     span {
       display: inline-block;
-      padding: 6px 14px;
+      padding: 10px 14px;
       background: rgb(220, 220, 220);
       color: rgb(95, 95, 95);
-      border-radius: 4px;
     }
     .el-table {
       /deep/ th {
