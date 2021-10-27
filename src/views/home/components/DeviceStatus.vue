@@ -106,7 +106,6 @@ export default {
         if (code === 200 && data) {
           this.tableData.canopy_GTpost = this.toSetDataStyle(JSON.parse(data['canopy:GTpost']).value || {});
           this.tableData.charge_CDpost = this.toSetDataStyle(JSON.parse(data['charge:CDpost']).value || {});
-          console.log(this.tableData.canopy_GTpost);
         } else {
           this.$message({
             type: 'error',
