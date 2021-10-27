@@ -8,6 +8,7 @@
     <el-table
       border
       :data="tableData"
+      v-loading="pageLoding"
       style="width: 100%">
       <el-table-column
         prop="momentCreatTime"
