@@ -65,7 +65,7 @@ export default {
     return {
       listQuery: {
         pageNum: 1,
-        pageSize: 500
+        pageSize: 100
       },
       pageLoding: false,
       tableData: [],
