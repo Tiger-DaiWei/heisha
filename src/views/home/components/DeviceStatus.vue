@@ -8,58 +8,37 @@
     <div
       class="table"
       v-loading="tableLoading">
-      <span>防雨盖状态</span>
-      <el-table
-        border
-        :data="tableData.canopy_GTpost"
-        style="width: 100%">
-        <el-table-column
-          prop="status"
-          align="center"
-          label="状态名">
-        </el-table-column>
-        <el-table-column
-          prop="value"
-          align="center"
-          label="状态值">
-        </el-table-column>
-        <el-table-column
-          prop="unit"
-          align="center"
-          label="单位">
-        </el-table-column>
-        <el-table-column
-          prop="note"
-          align="center"
-          label="备注">
-        </el-table-column>
-      </el-table>
-      <span>充电板状态</span>
-      <el-table
-        border
-        :data="tableData.charge_CDpost"
-        style="width: 100%">
-        <el-table-column
-          prop="status"
-          align="center"
-          label="状态名">
-        </el-table-column>
-        <el-table-column
-          prop="value"
-          align="center"
-          label="状态值">
-        </el-table-column>
-        <el-table-column
-          prop="unit"
-          align="center"
-          label="单位">
-        </el-table-column>
-        <el-table-column
-          prop="note"
-          align="center"
-          label="备注">
-        </el-table-column>
-      </el-table>
+      <div
+        v-for="item in tableList"
+        :key="item.key">
+        <span>{{ item.label }}</span>
+        <el-table
+          border
+          :data="tableData[item.key]"
+          style="width: 100%"
+          height="400">
+          <el-table-column
+            prop="status"
+            align="center"
+            label="状态名">
+          </el-table-column>
+          <el-table-column
+            prop="value"
+            align="center"
+            label="状态值">
+          </el-table-column>
+          <el-table-column
+            prop="unit"
+            align="center"
+            label="单位">
+          </el-table-column>
+          <el-table-column
+            prop="note"
+            align="center"
+            label="备注">
+          </el-table-column>
+        </el-table>
+      </div>
     </div>
   </div>
 </template>
@@ -81,7 +60,41 @@ export default {
         canopy_GTpost: [],
         // 充电板
         charge_CDpost: [],
+        // 空调
+        air_condition: [],
+        // 归中
+        position_bar: [],
+        // 系统
+        sys_post: [],
+        // 天气传感
+        atmosphere: [],
       },
+      tableList: [
+        {
+          label: '防雨盖状态',
+          key: 'canopy_GTpost',
+        },
+        {
+          label: '充电板状态',
+          key: 'charge_CDpost',
+        },
+        {
+          label: '空调状态',
+          key: 'air_condition',
+        },
+        {
+          label: '归中状态',
+          key: 'position_bar',
+        },
+        {
+          label: '天气传感状态',
+          key: 'atmosphere',
+        },
+        {
+          label: '系统状态',
+          key: 'sys_post',
+        },
+      ],
       tableLoading: false,
     };
   },
@@ -98,6 +111,10 @@ export default {
       this.tableLoading = true;
       this.tableData.canopy_GTpost = [];
       this.tableData.charge_CDpost = [];
+      this.tableData.air_condition = [];
+      this.tableData.position_bar = [];
+      this.tableData.sys_post = [];
+      this.tableData.atmosphere = [];
       const { deviceName, productKey } = this.deviceDetails;
       getDeviceInfo({
         deviceName, // 设备名称
@@ -106,6 +123,10 @@ export default {
         if (code === 200 && data) {
           this.tableData.canopy_GTpost = this.toSetDataStyle(JSON.parse(data['canopy:GTpost']).value || {});
           this.tableData.charge_CDpost = this.toSetDataStyle(JSON.parse(data['charge:CDpost']).value || {});
+          this.tableData.air_condition = this.toSetDataStyle(JSON.parse(data['air_condition:A100post']).value || {});
+          this.tableData.position_bar = this.toSetDataStyle(JSON.parse(data['position_bar:GZPost']).value || {});
+          this.tableData.sys_post = this.toSetDataStyle(JSON.parse(data['sys_post']).value || {});
+          this.tableData.atmosphere = this.toSetDataStyle(JSON.parse(data['atmosphere:AtmosPost']).value || {});
         } else {
           this.$message({
             type: 'error',
